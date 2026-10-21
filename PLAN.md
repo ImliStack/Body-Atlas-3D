@@ -85,6 +85,8 @@ pages (one static page per system, like the reference site).
    PNG export, dark theme, shortcut sheet, WebGL fallback, mobile search on top
 5. Exploded view, region axis (head / trunk / limbs), pinned labels with leader lines,
    per-layer opacity sliders, merged draw calls
+8. Female reference body from HuBMAP Female Reference Organs v1.5 (CC BY 4.0), with a
+   male / female switcher
 6. Static SEO pages per system (Astro), PWA offline cache
 7. Mobile layout + performance pass (BVH, LOD, merged draw calls)
 

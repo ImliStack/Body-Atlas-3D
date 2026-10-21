@@ -291,8 +291,8 @@ between people.
 <details>
 <summary><b>Is there a female body?</b></summary>
 <br />
-Not yet. BodyParts3D is a male reference model; a female reference (HuBMAP, CC BY 4.0) is
-noted in <a href="PLAN.md">PLAN.md</a> as a candidate.
+Not yet. BodyParts3D is a male reference model. A female reference body (HuBMAP Female
+Reference Organs, CC BY 4.0) is on the <a href="#-roadmap">roadmap</a>.
 </details>
 
 <details>
@@ -313,6 +313,7 @@ the atlas still works and the page tells you what to change.
 - [ ] Per-layer opacity sliders
 - [ ] Fewer draw calls by merging static meshes
 - [ ] One static page per system for search engines, offline cache (PWA)
+- [ ] Female reference body (HuBMAP Female Reference Organs, CC BY 4.0) with a body switcher
 
 Research notes and earlier milestones are in [PLAN.md](PLAN.md).
 
