@@ -187,35 +187,16 @@ In search, <kbd>↑</kbd> <kbd>↓</kbd> move through results and <kbd>Enter</kb
 
 ```mermaid
 flowchart LR
-    subgraph assets["Static assets"]
-        direction TB
-        A["atlas.json<br/>manifest"]
-        C["body-*.bin.gz<br/>15 geometry chunks"]
-        G["organs/*.glb<br/>14 organ models"]
-    end
-    subgraph core["State"]
-        direction TB
-        B["store.js<br/>selection · layers · quiz<br/>search index"]
-        I["links.js<br/>URL hash"]
-    end
-    subgraph scene["3D scene"]
-        direction TB
-        D["meshes.js<br/>2,234 meshes · BVH"]
-        H["OrganDetail.jsx<br/>lift-out organ"]
-        E["Stage.jsx<br/>canvas · camera · picking"]
-    end
-    subgraph ui["Interface"]
-        F["Sidebar · Panel<br/>Search · Tools"]
-    end
-    A --> B
-    C --> D
-    G --> H
-    B -->|"applyState()"| D
-    D --> E
-    H --> E
-    E -->|"clicks · hover"| B
-    F <-->|"actions · state"| B
-    I <-->|"sync"| B
+    A["atlas.json<br/>manifest"] --> S["store.js<br/>state · search index"]
+    C["body-*.bin.gz<br/>15 chunks"] --> M["meshes.js<br/>2,234 meshes"]
+    G["organs/*.glb"] --> D["OrganDetail.jsx<br/>lift-out organ"]
+    S -->|"applyState()"| M
+    M --> R["Stage.jsx<br/>canvas · camera"]
+    D --> R
+    S -->|"camera"| R
+    R -.->|"click · hover"| S
+    U["Sidebar · Panel<br/>Search · Tools"] <-->|"actions · state"| S
+    L["links.js<br/>URL hash"] <-->|"sync"| S
 ```
 
 | Piece | Approach |
