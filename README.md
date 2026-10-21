@@ -187,16 +187,35 @@ In search, <kbd>↑</kbd> <kbd>↓</kbd> move through results and <kbd>Enter</kb
 
 ```mermaid
 flowchart LR
-    A["atlas.json<br/>manifest"] --> B["store.js<br/>search index"]
-    C["body-*.bin.gz<br/>15 chunks"] --> D["meshes.js<br/>2,234 meshes"]
-    D --> E["Stage.jsx<br/>R3F canvas"]
-    B --> F["UI<br/>Sidebar · Panel · Search"]
-    F -->|"select · layers · x-ray"| B
+    subgraph assets["Static assets"]
+        direction TB
+        A["atlas.json<br/>manifest"]
+        C["body-*.bin.gz<br/>15 geometry chunks"]
+        G["organs/*.glb<br/>14 organ models"]
+    end
+    subgraph core["State"]
+        direction TB
+        B["store.js<br/>selection · layers · quiz<br/>search index"]
+        I["links.js<br/>URL hash"]
+    end
+    subgraph scene["3D scene"]
+        direction TB
+        D["meshes.js<br/>2,234 meshes · BVH"]
+        H["OrganDetail.jsx<br/>lift-out organ"]
+        E["Stage.jsx<br/>canvas · camera · picking"]
+    end
+    subgraph ui["Interface"]
+        F["Sidebar · Panel<br/>Search · Tools"]
+    end
+    A --> B
+    C --> D
+    G --> H
     B -->|"applyState()"| D
-    B -->|"camera commands"| E
-    G["organs/*.glb"] --> H["OrganDetail.jsx<br/>lift-out model"]
+    D --> E
     H --> E
-    B <-->|"URL hash"| I["links.js<br/>shareable URL"]
+    E -->|"clicks · hover"| B
+    F <-->|"actions · state"| B
+    I <-->|"sync"| B
 ```
 
 | Piece | Approach |
