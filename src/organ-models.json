@@ -1,0 +1,2054 @@
+{
+ "heart": {
+  "name": "Heart",
+  "src": "/organs/heart.glb",
+  "bytes": 2524400,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/heart-3d@c72ce6654ff8e282942f97750d3104f55ef4fc3d/public/models/heart.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Left lateral",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "right-atrium",
+    "label": "Right atrium",
+    "group": "Heart walls",
+    "color": "#a96d70",
+    "description": "Receives blood returning from the body and passes it to the right ventricle."
+   },
+   {
+    "id": "left-atrium",
+    "label": "Left atrium",
+    "group": "Heart walls",
+    "color": "#b77c76",
+    "description": "Receives oxygen-rich blood from the lungs and passes it to the left ventricle."
+   },
+   {
+    "id": "ventricular-wall",
+    "label": "Ventricular wall",
+    "group": "Heart walls",
+    "color": "#ab6159",
+    "description": "Muscular tissue surrounding the two lower pumping chambers of the heart."
+   },
+   {
+    "id": "right-ventricle",
+    "label": "Right ventricular cavity",
+    "group": "Ventricular cavities",
+    "color": "#b86661",
+    "description": "The space inside the right ventricle, which pumps blood toward the lungs."
+   },
+   {
+    "id": "left-ventricle",
+    "label": "Left ventricular cavity",
+    "group": "Ventricular cavities",
+    "color": "#d28b72",
+    "description": "The space inside the left ventricle, which pumps blood into the aorta."
+   },
+   {
+    "id": "ascending-aorta",
+    "label": "Ascending aorta",
+    "group": "Great vessels",
+    "color": "#c37f6a",
+    "description": "The aorta carries blood away from the heart to the body."
+   },
+   {
+    "id": "aortic-arch",
+    "label": "Aortic arch",
+    "group": "Great vessels",
+    "color": "#ca8d78",
+    "description": "Part of the aorta, the main artery carrying blood from the heart."
+   },
+   {
+    "id": "pulmonary-trunk",
+    "label": "Pulmonary trunk",
+    "group": "Great vessels",
+    "color": "#789aab",
+    "description": "Carries blood from the right ventricle toward the lungs."
+   },
+   {
+    "id": "superior-vena-cava",
+    "label": "Superior vena cava",
+    "group": "Great vessels",
+    "color": "#8c9fab",
+    "description": "One of the large veins returning blood from the body to the right atrium."
+   },
+   {
+    "id": "left-coronary",
+    "label": "Left coronary artery",
+    "group": "Coronary arteries",
+    "color": "#dfb58a",
+    "description": "Supplies the heart muscle, including parts of the left heart and ventricular septum."
+   },
+   {
+    "id": "right-coronary",
+    "label": "Right coronary artery",
+    "group": "Coronary arteries",
+    "color": "#d4a777",
+    "description": "Supplies the right atrium and parts of both ventricles."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International",
+   "license": "CC BY 4.0",
+   "licenseUrl": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html",
+   "source": "https://github.com/organui/heart-3d/blob/c72ce6654ff8e282942f97750d3104f55ef4fc3d/public/models/ATTRIBUTION.md"
+  },
+  "size": [
+   2.3138999938964844,
+   2.8580000400543213,
+   2.5352020263671875
+  ]
+ },
+ "brain": {
+  "name": "Brain",
+  "src": "/organs/brain.glb",
+  "bytes": 5865004,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/brain-3d@e2f8c172716d8f4e8db6080b7d23f38fabe3add8/public/models/brain.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Left lateral",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   },
+   {
+    "name": "Right lateral",
+    "direction": [
+     -1,
+     0,
+     0
+    ]
+   },
+   {
+    "name": "Superior",
+    "direction": [
+     0,
+     1,
+     0
+    ]
+   },
+   {
+    "name": "Inferior",
+    "direction": [
+     0,
+     -1,
+     0
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "left-frontal",
+    "label": "Left frontal lobe",
+    "group": "Cerebral lobes",
+    "color": "#c98e83",
+    "description": "The front portion of a cerebral hemisphere; it includes cortical regions involved in planning and voluntary movement."
+   },
+   {
+    "id": "right-frontal",
+    "label": "Right frontal lobe",
+    "group": "Cerebral lobes",
+    "color": "#d9a096",
+    "description": "The front portion of a cerebral hemisphere; it includes cortical regions involved in planning and voluntary movement."
+   },
+   {
+    "id": "left-parietal",
+    "label": "Left parietal lobe",
+    "group": "Cerebral lobes",
+    "color": "#c7a577",
+    "description": "A superior-posterior part of a cerebral hemisphere that participates in integrating bodily sensory information."
+   },
+   {
+    "id": "right-parietal",
+    "label": "Right parietal lobe",
+    "group": "Cerebral lobes",
+    "color": "#d6b486",
+    "description": "A superior-posterior part of a cerebral hemisphere that participates in integrating bodily sensory information."
+   },
+   {
+    "id": "left-temporal",
+    "label": "Left temporal lobe",
+    "group": "Cerebral lobes",
+    "color": "#aa847d",
+    "description": "A lower lateral part of a cerebral hemisphere that includes regions involved in hearing and memory."
+   },
+   {
+    "id": "right-temporal",
+    "label": "Right temporal lobe",
+    "group": "Cerebral lobes",
+    "color": "#ba948c",
+    "description": "A lower lateral part of a cerebral hemisphere that includes regions involved in hearing and memory."
+   },
+   {
+    "id": "left-occipital",
+    "label": "Left occipital lobe",
+    "group": "Cerebral lobes",
+    "color": "#9b8d83",
+    "description": "The posterior part of a cerebral hemisphere and the principal cortical region for visual processing."
+   },
+   {
+    "id": "right-occipital",
+    "label": "Right occipital lobe",
+    "group": "Cerebral lobes",
+    "color": "#aa9c91",
+    "description": "The posterior part of a cerebral hemisphere and the principal cortical region for visual processing."
+   },
+   {
+    "id": "left-hippocampus",
+    "label": "Left hippocampus",
+    "group": "Deep structures",
+    "color": "#d8ad67",
+    "description": "A curved deep structure of the temporal region involved in forming and organizing memories."
+   },
+   {
+    "id": "right-hippocampus",
+    "label": "Right hippocampus",
+    "group": "Deep structures",
+    "color": "#e4bd7c",
+    "description": "A curved deep structure of the temporal region involved in forming and organizing memories."
+   },
+   {
+    "id": "midbrain",
+    "label": "Midbrain",
+    "group": "Brainstem & cerebellum",
+    "color": "#9a776d",
+    "description": "The upper portion of the brainstem, between the forebrain and pons."
+   },
+   {
+    "id": "pons",
+    "label": "Pons",
+    "group": "Brainstem & cerebellum",
+    "color": "#b18779",
+    "description": "The rounded middle portion of the brainstem, anterior to the cerebellum."
+   },
+   {
+    "id": "medulla",
+    "label": "Medulla oblongata",
+    "group": "Brainstem & cerebellum",
+    "color": "#8b6d67",
+    "description": "The lowest portion of the brainstem, continuous inferiorly with the spinal cord."
+   },
+   {
+    "id": "cerebellum",
+    "label": "Cerebellum",
+    "group": "Brainstem & cerebellum",
+    "color": "#b49b86",
+    "description": "A folded structure behind the brainstem that helps coordinate movement and balance."
+   },
+   {
+    "id": "left-lateral-ventricle",
+    "label": "Left lateral ventricle",
+    "group": "Ventricular spaces",
+    "color": "#6f9ca3",
+    "description": "One of the paired cavities deep in the cerebrum through which cerebrospinal fluid circulates."
+   },
+   {
+    "id": "right-lateral-ventricle",
+    "label": "Right lateral ventricle",
+    "group": "Ventricular spaces",
+    "color": "#79aab1",
+    "description": "One of the paired cavities deep in the cerebrum through which cerebrospinal fluid circulates."
+   },
+   {
+    "id": "third-ventricle",
+    "label": "Third ventricle",
+    "group": "Ventricular spaces",
+    "color": "#628e98",
+    "description": "A narrow midline cavity connected to the lateral ventricles and cerebral aqueduct."
+   },
+   {
+    "id": "cerebral-aqueduct",
+    "label": "Cerebral aqueduct",
+    "group": "Ventricular spaces",
+    "color": "#527e88",
+    "description": "A narrow channel through the midbrain linking the third and fourth ventricles."
+   },
+   {
+    "id": "fourth-ventricle",
+    "label": "Fourth ventricle",
+    "group": "Ventricular spaces",
+    "color": "#719aa1",
+    "description": "A cavity between the brainstem and cerebellum that receives fluid from the cerebral aqueduct."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International",
+   "license": "CC BY 4.0",
+   "licenseUrl": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html",
+   "source": "https://github.com/organui/brain-3d/blob/e2f8c172716d8f4e8db6080b7d23f38fabe3add8/public/models/ATTRIBUTION.md"
+  },
+  "size": [
+   2.7766759395599365,
+   3.319200038909912,
+   3.600126028060913
+  ]
+ },
+ "lungs": {
+  "name": "Lungs",
+  "src": "/organs/lungs.glb",
+  "bytes": 3901260,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/lungs-3d@5815084f43efe438ebfae3fd889ee2baf343dfbf/public/models/lungs.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Left lateral",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   },
+   {
+    "name": "Right lateral",
+    "direction": [
+     -1,
+     0,
+     0
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "FMA7338",
+    "label": "Right apical segment",
+    "group": "Right upper lobe",
+    "color": "#d5a286",
+    "description": "The tissue assigned to the right apical segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7339",
+    "label": "Right posterior segment",
+    "group": "Right upper lobe",
+    "color": "#d5a286",
+    "description": "The tissue assigned to the right posterior segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7359",
+    "label": "Right anterior segment",
+    "group": "Right upper lobe",
+    "color": "#d5a286",
+    "description": "The tissue assigned to the right anterior segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7361",
+    "label": "Right lateral segment",
+    "group": "Right middle lobe",
+    "color": "#91b7a7",
+    "description": "The tissue assigned to the right lateral segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7360",
+    "label": "Right medial segment",
+    "group": "Right middle lobe",
+    "color": "#91b7a7",
+    "description": "The tissue assigned to the right medial segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7366",
+    "label": "Right superior segment",
+    "group": "Right lower lobe",
+    "color": "#b87f75",
+    "description": "The tissue assigned to the right superior segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7364",
+    "label": "Right anterior basal segment",
+    "group": "Right lower lobe",
+    "color": "#b87f75",
+    "description": "The tissue assigned to the right anterior basal segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7363",
+    "label": "Right lateral basal segment",
+    "group": "Right lower lobe",
+    "color": "#b87f75",
+    "description": "The tissue assigned to the right lateral basal segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7362",
+    "label": "Right posterior basal segment",
+    "group": "Right lower lobe",
+    "color": "#b87f75",
+    "description": "The tissue assigned to the right posterior basal segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7372",
+    "label": "Left apicoposterior segment",
+    "group": "Left upper lobe",
+    "color": "#d9b997",
+    "description": "The tissue assigned to the left apicoposterior segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7373",
+    "label": "Left anterior segment",
+    "group": "Left upper lobe",
+    "color": "#d9b997",
+    "description": "The tissue assigned to the left anterior segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7374",
+    "label": "Superior lingular segment",
+    "group": "Left upper lobe",
+    "color": "#d9b997",
+    "description": "The tissue assigned to the superior lingular segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7375",
+    "label": "Inferior lingular segment",
+    "group": "Left upper lobe",
+    "color": "#d9b997",
+    "description": "The tissue assigned to the inferior lingular segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7376",
+    "label": "Left superior segment",
+    "group": "Left lower lobe",
+    "color": "#879fae",
+    "description": "The tissue assigned to the left superior segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7378",
+    "label": "Left anterior basal segment",
+    "group": "Left lower lobe",
+    "color": "#879fae",
+    "description": "The tissue assigned to the left anterior basal segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7379",
+    "label": "Left lateral basal segment",
+    "group": "Left lower lobe",
+    "color": "#879fae",
+    "description": "The tissue assigned to the left lateral basal segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7380",
+    "label": "Left posterior basal segment",
+    "group": "Left lower lobe",
+    "color": "#879fae",
+    "description": "The tissue assigned to the left posterior basal segment in BodyParts3D. Its shape and boundaries come from the source model."
+   },
+   {
+    "id": "FMA7394",
+    "label": "Trachea",
+    "group": "Airway tree",
+    "color": "#dfc6a3",
+    "description": "The windpipe carries air toward the right and left main bronchi."
+   },
+   {
+    "id": "FMA26661",
+    "label": "Right bronchial tree",
+    "group": "Airway tree",
+    "color": "#d8b47e",
+    "description": "The available branches of the airway entering the right lung, grouped for selection."
+   },
+   {
+    "id": "FMA26662",
+    "label": "Left bronchial tree",
+    "group": "Airway tree",
+    "color": "#d8b47e",
+    "description": "The available branches of the airway entering the left lung, grouped for selection."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI.",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://lifesciencedb.jp/bp3d/info/index.html#License",
+   "source": "https://github.com/organui/lungs-3d/blob/5815084f43efe438ebfae3fd889ee2baf343dfbf/public/models/LICENSE.txt"
+  },
+  "size": [
+   4.592844009399414,
+   5.020380020141602,
+   3.252410888671875
+  ]
+ },
+ "liver": {
+  "name": "Liver",
+  "src": "/organs/liver.glb",
+  "bytes": 5579432,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/liver-3d@528ee1794670d3bfa23d581f91ba49d6af585b03/public/models/liver.glb",
+  "defaultView": "Overview",
+  "views": [
+   {
+    "name": "Overview",
+    "direction": [
+     -0.25,
+     0.28,
+     1
+    ]
+   },
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Inferior",
+    "direction": [
+     0,
+     -1,
+     0.01
+    ]
+   },
+   {
+    "name": "Superior",
+    "direction": [
+     0,
+     1,
+     0.01
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "liver",
+    "label": "Liver surface",
+    "group": "Liver",
+    "color": "#a85750",
+    "description": "The liver processes nutrients, stores energy, and makes bile to help digest fats. It sits beneath the diaphragm, mostly on the right side of the abdomen."
+   },
+   {
+    "id": "gallbladder",
+    "label": "Gallbladder",
+    "group": "Biliary system",
+    "color": "#86a65f",
+    "description": "A small organ beneath the liver that stores bile between meals and releases it into the small intestine to support fat digestion."
+   },
+   {
+    "id": "portal",
+    "label": "Portal vein",
+    "group": "Blood vessels",
+    "color": "#9783c1",
+    "description": "The hepatic portal vein brings nutrient-rich blood to the liver from the digestive organs. Its branches distribute this blood through the liver."
+   },
+   {
+    "id": "hepatic-veins",
+    "label": "Hepatic veins",
+    "group": "Blood vessels",
+    "color": "#649cbb",
+    "description": "The hepatic veins carry blood away from the liver toward the inferior vena cava, returning it to the circulation."
+   },
+   {
+    "id": "artery",
+    "label": "Hepatic artery",
+    "group": "Blood vessels",
+    "color": "#d99173",
+    "description": "The hepatic artery supplies oxygenated blood to the liver, alongside the nutrient-rich blood arriving through the portal vein."
+   },
+   {
+    "id": "biliary",
+    "label": "Hepatic bile ducts",
+    "group": "Biliary system",
+    "color": "#b1a450",
+    "description": "A branching network collects bile from the liver. The right and left hepatic ducts join the common hepatic duct."
+   },
+   {
+    "id": "cystic",
+    "label": "Cystic duct",
+    "group": "Biliary system",
+    "color": "#6b9d83",
+    "description": "The cystic duct connects the gallbladder with the bile duct system, providing a passage for stored bile."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International",
+   "license": "CC BY 4.0",
+   "licenseUrl": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html",
+   "source": "https://github.com/organui/liver-3d/blob/528ee1794670d3bfa23d581f91ba49d6af585b03/public/models/LICENSE.txt"
+  },
+  "size": [
+   4.188615798950195,
+   3.271199941635132,
+   3.1816859245300293
+  ]
+ },
+ "kidneys": {
+  "name": "Kidneys",
+  "src": "/organs/kidneys.glb",
+  "bytes": 380208,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/kidneys-3d@880b7c9cdf9f2272eee7741b01ccb34454adb30c/public/models/kidneys.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Patient left",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   },
+   {
+    "name": "Patient right",
+    "direction": [
+     -1,
+     0,
+     0
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "right-kidney",
+    "label": "Right kidney",
+    "group": "Kidneys",
+    "color": "#9f4e45",
+    "description": "The patient’s right kidney is one of the paired organs that filter blood and produce urine. In this source body it sits slightly lower than the left kidney."
+   },
+   {
+    "id": "left-kidney",
+    "label": "Left kidney",
+    "group": "Kidneys",
+    "color": "#b56256",
+    "description": "The patient’s left kidney is shown in its source alignment beside the spine. This surface mesh does not expose cortex, medulla, or the renal pelvis."
+   },
+   {
+    "id": "right-ureter",
+    "label": "Right ureter",
+    "group": "Urinary tract",
+    "color": "#d09b73",
+    "description": "The right ureter is the narrow muscular tube that carries urine from the right kidney toward the bladder. The bladder is outside this release’s represented scope."
+   },
+   {
+    "id": "left-ureter",
+    "label": "Left ureter",
+    "group": "Urinary tract",
+    "color": "#dcad86",
+    "description": "The left ureter descends from the left kidney toward the bladder. Its lower end is truncated here because the bladder is not included in the selected geometry."
+   },
+   {
+    "id": "right-renal-artery",
+    "label": "Right renal artery",
+    "group": "Arterial supply",
+    "color": "#bd514c",
+    "description": "The right renal artery supplies the right kidney. The source concept combines its represented trunk and mapped branches into one selectable scene object."
+   },
+   {
+    "id": "left-renal-artery",
+    "label": "Left renal artery",
+    "group": "Arterial supply",
+    "color": "#cf6960",
+    "description": "The left renal artery supplies the left kidney. Color is illustrative and is used to distinguish the arterial meshes from adjacent surfaces."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International",
+   "license": "CC BY 4.0",
+   "licenseUrl": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html",
+   "source": "https://github.com/organui/kidneys-3d/blob/880b7c9cdf9f2272eee7741b01ccb34454adb30c/public/models/LICENSE.txt"
+  },
+  "size": [
+   4.448959827423096,
+   6.9809250831604,
+   1.5178899765014648
+  ]
+ },
+ "stomach": {
+  "name": "Stomach",
+  "src": "/organs/stomach.glb",
+  "bytes": 1161368,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/stomach-3d@a945af4e28cc37da63143c685293e7dae7e7f6d5/public/models/stomach.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Left lateral",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "stomach",
+    "label": "Stomach",
+    "group": "Digestive tract",
+    "color": "#d39a86",
+    "description": "A muscular J-shaped sac in the upper left abdomen that stores food, mixes it with digestive juices, and passes it on in small amounts."
+   },
+   {
+    "id": "esophagus",
+    "label": "Esophagus (lower part)",
+    "group": "Digestive tract",
+    "color": "#c58b7d",
+    "description": "The muscular tube that carries swallowed food down through the chest. It passes through the diaphragm and opens into the stomach at the cardia."
+   },
+   {
+    "id": "duodenum",
+    "label": "Duodenum",
+    "group": "Digestive tract",
+    "color": "#d9b27f",
+    "description": "The first part of the small intestine. It receives food from the stomach through the pylorus and curves around the head of the pancreas."
+   },
+   {
+    "id": "celiac-trunk",
+    "label": "Celiac trunk",
+    "group": "Arteries",
+    "color": "#b8574f",
+    "description": "A short artery branching from the abdominal aorta. It divides into the left gastric, splenic, and common hepatic arteries, which supply the stomach and its neighbours."
+   },
+   {
+    "id": "left-gastric-artery",
+    "label": "Left gastric artery",
+    "group": "Arteries",
+    "color": "#cc6f62",
+    "description": "The smallest celiac branch. It runs up toward the esophagus and along the lesser curvature of the stomach."
+   },
+   {
+    "id": "splenic-artery",
+    "label": "Splenic artery",
+    "group": "Arteries",
+    "color": "#a9514c",
+    "description": "A winding branch running left behind the stomach along the pancreas to the spleen. Its branches also supply parts of the stomach."
+   },
+   {
+    "id": "common-hepatic-artery",
+    "label": "Common hepatic artery",
+    "group": "Arteries",
+    "color": "#d9826a",
+    "description": "The celiac branch running right toward the liver. Its branches help supply the stomach, duodenum, and pancreas."
+   },
+   {
+    "id": "spleen",
+    "label": "Spleen",
+    "group": "Neighbouring organs",
+    "color": "#8d6a86",
+    "description": "An organ of the immune and blood systems that sits behind and to the left of the stomach, under the ribs."
+   },
+   {
+    "id": "pancreas",
+    "label": "Pancreas",
+    "group": "Neighbouring organs",
+    "color": "#e2c48f",
+    "description": "A gland lying behind the stomach. It releases digestive juices into the duodenum and hormones such as insulin into the blood."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D, © The Database Center for Life Science licensed under CC Attribution-Share Alike 2.1 Japan",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "source": "https://github.com/organui/stomach-3d/blob/a945af4e28cc37da63143c685293e7dae7e7f6d5/public/models/ATTRIBUTION.md"
+  },
+  "size": [
+   3.609868049621582,
+   4.927599906921387,
+   2.946661949157715
+  ]
+ },
+ "pancreas": {
+  "name": "Pancreas",
+  "src": "/organs/pancreas.glb",
+  "bytes": 881964,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/pancreas-3d@b96dcf3c234b2b6dba9473661b1d604532301a67/public/models/pancreas.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Inferior",
+    "direction": [
+     0,
+     -1,
+     0.35
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "pancreas",
+    "label": "Pancreas",
+    "group": "Pancreas",
+    "color": "#dcb67e",
+    "description": "A gland behind the stomach. Its head sits in the curve of the duodenum and its tail reaches the spleen."
+   },
+   {
+    "id": "pancreatic-duct",
+    "label": "Pancreatic duct",
+    "group": "Pancreas",
+    "color": "#7d9a5e",
+    "description": "Carries digestive juices from the gland along its length and empties them into the duodenum."
+   },
+   {
+    "id": "duodenum",
+    "label": "Duodenum",
+    "group": "Neighbouring organs",
+    "color": "#c99089",
+    "description": "The first part of the small intestine. It curves around the head of the pancreas and receives the pancreatic duct."
+   },
+   {
+    "id": "spleen",
+    "label": "Spleen",
+    "group": "Neighbouring organs",
+    "color": "#8e5c6c",
+    "description": "An organ in the upper left abdomen. The tail of the pancreas ends near its hilum."
+   },
+   {
+    "id": "celiac-trunk",
+    "label": "Celiac trunk",
+    "group": "Arteries",
+    "color": "#b8564c",
+    "description": "A short branch of the aorta that divides into arteries supplying the stomach, liver, spleen and pancreas."
+   },
+   {
+    "id": "common-hepatic-artery",
+    "label": "Common hepatic artery",
+    "group": "Arteries",
+    "color": "#c9725f",
+    "description": "Runs from the celiac trunk toward the liver and gives off the gastroduodenal artery."
+   },
+   {
+    "id": "gastroduodenal-artery",
+    "label": "Gastroduodenal artery",
+    "group": "Arteries",
+    "color": "#d0836c",
+    "description": "Passes behind the first part of the duodenum and leads to the arteries around the pancreatic head."
+   },
+   {
+    "id": "pancreaticoduodenal-arteries",
+    "label": "Pancreaticoduodenal arteries",
+    "group": "Arteries",
+    "color": "#de9878",
+    "description": "Arcades around the head of the pancreas that supply it and the duodenum, joining branches from above and below."
+   },
+   {
+    "id": "splenic-artery",
+    "label": "Splenic artery",
+    "group": "Arteries",
+    "color": "#a94a46",
+    "description": "Runs from the celiac trunk along the upper border of the pancreas to the spleen."
+   },
+   {
+    "id": "pancreatic-arteries",
+    "label": "Pancreatic branches",
+    "group": "Arteries",
+    "color": "#e3a989",
+    "description": "Branches that supply the neck, body and tail of the pancreas."
+   },
+   {
+    "id": "superior-mesenteric-artery",
+    "label": "Superior mesenteric artery",
+    "group": "Arteries",
+    "color": "#bf6656",
+    "description": "Leaves the aorta behind the neck of the pancreas and supplies much of the intestine."
+   },
+   {
+    "id": "splenic-vein",
+    "label": "Splenic vein",
+    "group": "Veins",
+    "color": "#6d8db0",
+    "description": "Drains the spleen and runs behind the pancreas to join the superior mesenteric vein."
+   },
+   {
+    "id": "superior-mesenteric-vein",
+    "label": "Superior mesenteric vein",
+    "group": "Veins",
+    "color": "#7f9fbf",
+    "description": "Drains much of the intestine. Its left border marks where the head of the pancreas ends and the body begins."
+   },
+   {
+    "id": "portal-vein",
+    "label": "Portal vein",
+    "group": "Veins",
+    "color": "#5f7fa6",
+    "description": "Formed behind the neck of the pancreas where the splenic and superior mesenteric veins meet. It carries blood to the liver."
+   },
+   {
+    "id": "pancreaticoduodenal-veins",
+    "label": "Pancreaticoduodenal veins",
+    "group": "Veins",
+    "color": "#93aecb",
+    "description": "Drain the head of the pancreas and the duodenum toward the portal system."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI.",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "source": "https://github.com/organui/pancreas-3d/blob/b96dcf3c234b2b6dba9473661b1d604532301a67/public/models/ATTRIBUTION.md"
+  },
+  "size": [
+   2.8718767166137695,
+   3.398927927017212,
+   1.7716463804244995
+  ]
+ },
+ "spleen": {
+  "name": "Spleen",
+  "src": "/organs/spleen.glb",
+  "bytes": 1695732,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/spleen-3d@5059a958d2c39547294d39de8ec296fda3888148/public/models/spleen.glb",
+  "defaultView": "Posterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Left lateral",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "spleen",
+    "label": "Spleen",
+    "group": "Spleen",
+    "color": "#8d4f63",
+    "description": "The largest lymphatic organ. It filters blood, removes worn-out red blood cells, and helps the immune system respond to infection."
+   },
+   {
+    "id": "splenic-artery",
+    "label": "Splenic artery",
+    "group": "Splenic vessels",
+    "color": "#c46a5c",
+    "description": "Carries blood from the celiac trunk along the upper border of the pancreas to the spleen."
+   },
+   {
+    "id": "splenic-vein",
+    "label": "Splenic vein",
+    "group": "Splenic vessels",
+    "color": "#6f8aa6",
+    "description": "Drains blood from the spleen behind the pancreas. It joins the superior mesenteric vein to form the portal vein, which carries it to the liver."
+   },
+   {
+    "id": "celiac-trunk",
+    "label": "Celiac trunk",
+    "group": "Splenic vessels",
+    "color": "#d2896f",
+    "description": "A short branch of the abdominal aorta that divides to supply the stomach, liver and spleen. The splenic artery is its largest branch."
+   },
+   {
+    "id": "superior-mesenteric-vein",
+    "label": "Superior mesenteric vein",
+    "group": "Splenic vessels",
+    "color": "#8ea3b5",
+    "description": "Drains the small intestine and joins the splenic vein behind the neck of the pancreas."
+   },
+   {
+    "id": "stomach",
+    "label": "Stomach",
+    "group": "Neighbouring organs",
+    "color": "#d3ad94",
+    "description": "Lies in front of and to the right of the spleen. The spleen’s front surface rests against the back of the stomach."
+   },
+   {
+    "id": "pancreas",
+    "label": "Pancreas",
+    "group": "Neighbouring organs",
+    "color": "#dcbf7d",
+    "description": "Its tail reaches toward the splenic hilum, and the splenic vessels run along its upper border and back."
+   },
+   {
+    "id": "left-kidney",
+    "label": "Left kidney",
+    "group": "Neighbouring organs",
+    "color": "#a87268",
+    "description": "Sits behind and below the spleen. The spleen’s inner surface touches the upper part of the left kidney."
+   },
+   {
+    "id": "left-adrenal",
+    "label": "Left adrenal gland",
+    "group": "Neighbouring organs",
+    "color": "#c79a5e",
+    "description": "A small hormone-producing gland on top of the left kidney, close to the spleen’s inner surface."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D, © The Database Center for Life Science licensed under CC Attribution-Share Alike 2.1 Japan",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "source": "https://github.com/organui/spleen-3d/blob/5059a958d2c39547294d39de8ec296fda3888148/public/models/ATTRIBUTION.md"
+  },
+  "size": [
+   3.3775320053100586,
+   3.344799757003784,
+   2.946661949157715
+  ]
+ },
+ "gallbladder": {
+  "name": "Gallbladder",
+  "src": "/organs/gallbladder.glb",
+  "bytes": 3838836,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/gallbladder-3d@15b03b830abe55e1081ac929dcbe6318d84e4067/public/models/gallbladder.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Inferior",
+    "direction": [
+     0,
+     -1,
+     0.35
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "gallbladder",
+    "label": "Gallbladder",
+    "group": "Gallbladder",
+    "color": "#6f9a4f",
+    "description": "A pear-shaped sac on the underside of the liver. It stores and concentrates bile between meals and squeezes it out after eating."
+   },
+   {
+    "id": "cystic-duct",
+    "label": "Cystic duct",
+    "group": "Bile ducts",
+    "color": "#9fb35a",
+    "description": "A short duct from the neck of the gallbladder. Bile flows in through it to be stored and back out when the gallbladder contracts."
+   },
+   {
+    "id": "common-hepatic-duct",
+    "label": "Common hepatic duct",
+    "group": "Bile ducts",
+    "color": "#c2ad55",
+    "description": "Formed where the right and left hepatic ducts meet. It carries bile from the liver down toward the duodenum."
+   },
+   {
+    "id": "right-hepatic-duct",
+    "label": "Right hepatic duct",
+    "group": "Bile ducts",
+    "color": "#d6c06a",
+    "description": "Drains bile from the right part of the liver. It is short in this model."
+   },
+   {
+    "id": "left-hepatic-duct",
+    "label": "Left hepatic duct",
+    "group": "Bile ducts",
+    "color": "#b89b45",
+    "description": "Drains bile from the left part of the liver and runs across to meet the right hepatic duct."
+   },
+   {
+    "id": "intrahepatic-ducts",
+    "label": "Intrahepatic bile ducts",
+    "group": "Bile ducts",
+    "color": "#dccf8e",
+    "description": "Branches inside the liver that collect bile from its segments and lead to the right and left hepatic ducts."
+   },
+   {
+    "id": "pancreatic-duct",
+    "label": "Pancreatic duct",
+    "group": "Bile ducts",
+    "color": "#7d9a5e",
+    "description": "Runs the length of the pancreas. It usually joins the common bile duct just before both open into the duodenum."
+   },
+   {
+    "id": "liver",
+    "label": "Liver",
+    "group": "Neighbouring organs",
+    "color": "#a55e4e",
+    "description": "Makes bile and drains it through the hepatic ducts. The gallbladder lies in a shallow fossa on its underside."
+   },
+   {
+    "id": "duodenum",
+    "label": "Duodenum",
+    "group": "Neighbouring organs",
+    "color": "#c99089",
+    "description": "The first part of the small intestine. Bile and pancreatic juice enter it through the major duodenal papilla."
+   },
+   {
+    "id": "pancreas",
+    "label": "Pancreas",
+    "group": "Neighbouring organs",
+    "color": "#dcb67e",
+    "description": "A gland behind the stomach. The lower common bile duct passes through or behind its head."
+   },
+   {
+    "id": "portal-vein",
+    "label": "Portal vein",
+    "group": "Vessels",
+    "color": "#5f7fa6",
+    "description": "Carries blood from the gut and spleen to the liver. It runs behind the bile duct and the hepatic artery."
+   },
+   {
+    "id": "common-hepatic-artery",
+    "label": "Common hepatic artery",
+    "group": "Vessels",
+    "color": "#b8564c",
+    "description": "Runs from the celiac trunk toward the liver and continues as the hepatic artery proper."
+   },
+   {
+    "id": "hepatic-artery-proper",
+    "label": "Hepatic artery proper",
+    "group": "Vessels",
+    "color": "#c9725f",
+    "description": "Climbs beside the bile duct toward the liver and divides into the right and left hepatic arteries."
+   },
+   {
+    "id": "right-hepatic-artery",
+    "label": "Right hepatic artery",
+    "group": "Vessels",
+    "color": "#d0836c",
+    "description": "Supplies the right part of the liver. The cystic artery to the gallbladder usually arises from it."
+   },
+   {
+    "id": "left-hepatic-artery",
+    "label": "Left hepatic artery",
+    "group": "Vessels",
+    "color": "#de9878",
+    "description": "Supplies the left part of the liver."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI.",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "source": "https://github.com/organui/gallbladder-3d/blob/15b03b830abe55e1081ac929dcbe6318d84e4067/public/models/ATTRIBUTION.md"
+  },
+  "size": [
+   3.3508927822113037,
+   3.1604959964752197,
+   2.545348882675171
+  ]
+ },
+ "bladder": {
+  "name": "Bladder",
+  "src": "/organs/bladder.glb",
+  "bytes": 1817148,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/bladder-3d@36674f5d09ba1c9c58a3f76c944705c23ee91375/public/models/bladder.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Left lateral",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "urinary-bladder",
+    "label": "Urinary bladder",
+    "group": "Urinary tract",
+    "color": "#d39a7c",
+    "description": "A hollow, balloon-shaped muscular organ in the pelvis that stores urine until it is released."
+   },
+   {
+    "id": "right-ureter",
+    "label": "Right ureter",
+    "group": "Urinary tract",
+    "color": "#dcad86",
+    "description": "A narrow muscular tube that carries urine from the right kidney down to the bladder."
+   },
+   {
+    "id": "left-ureter",
+    "label": "Left ureter",
+    "group": "Urinary tract",
+    "color": "#e1b791",
+    "description": "A narrow muscular tube that carries urine from the left kidney down to the bladder."
+   },
+   {
+    "id": "urethra",
+    "label": "Urethra",
+    "group": "Urinary tract",
+    "color": "#c98572",
+    "description": "The tube that lets urine leave the body from the bottom of the bladder."
+   },
+   {
+    "id": "prostate",
+    "label": "Prostate",
+    "group": "Reproductive organs",
+    "color": "#a8828f",
+    "description": "A walnut-sized gland that sits just below the bladder and surrounds the first part of the urethra."
+   },
+   {
+    "id": "right-seminal-vesicle",
+    "label": "Right seminal vesicle",
+    "group": "Reproductive organs",
+    "color": "#b597a0",
+    "description": "A small gland behind the bladder that adds fluid to semen. It lies close to the bladder’s back wall."
+   },
+   {
+    "id": "left-seminal-vesicle",
+    "label": "Left seminal vesicle",
+    "group": "Reproductive organs",
+    "color": "#bea2aa",
+    "description": "A small gland behind the bladder that adds fluid to semen. It lies close to the bladder’s back wall."
+   },
+   {
+    "id": "right-pubococcygeus",
+    "label": "Right pubococcygeus",
+    "group": "Pelvic floor",
+    "color": "#b0675f",
+    "description": "Part of the pelvic floor muscles, which support the bladder and help hold urine in until it is released."
+   },
+   {
+    "id": "left-pubococcygeus",
+    "label": "Left pubococcygeus",
+    "group": "Pelvic floor",
+    "color": "#b8736a",
+    "description": "Part of the pelvic floor muscles, which support the bladder and help hold urine in until it is released."
+   },
+   {
+    "id": "right-puborectalis",
+    "label": "Right puborectalis",
+    "group": "Pelvic floor",
+    "color": "#9f5c57",
+    "description": "Part of the pelvic floor muscles. It forms a sling that loops behind the lower rectum."
+   },
+   {
+    "id": "left-puborectalis",
+    "label": "Left puborectalis",
+    "group": "Pelvic floor",
+    "color": "#a96862",
+    "description": "Part of the pelvic floor muscles. It forms a sling that loops behind the lower rectum."
+   },
+   {
+    "id": "rectum",
+    "label": "Rectum",
+    "group": "Neighbouring organs",
+    "color": "#8f9e8a",
+    "description": "The last part of the large intestine, which stores stool. It lies behind the bladder and prostate."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D, © The Database Center for Life Science licensed under CC Attribution-Share Alike 2.1 Japan",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "source": "https://github.com/organui/bladder-3d/blob/36674f5d09ba1c9c58a3f76c944705c23ee91375/public/models/ATTRIBUTION.md"
+  },
+  "size": [
+   1.4516780376434326,
+   2.6771204471588135,
+   2.279223918914795
+  ]
+ },
+ "eye": {
+  "name": "Eye",
+  "src": "/organs/eye.glb",
+  "bytes": 3947432,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/eye-3d@99f74f1c096ae2813dd18e1ecb2c9cbbd701c530/public/models/eye.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Lateral",
+    "direction": [
+     -1,
+     0,
+     0
+    ]
+   },
+   {
+    "name": "Superior",
+    "direction": [
+     0,
+     1,
+     0.08
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "cornea",
+    "label": "Cornea",
+    "group": "Wall of the eyeball",
+    "color": "#a9c4cf",
+    "description": "The clear, curved front window of the eye. It lets light in and does most of the focusing."
+   },
+   {
+    "id": "sclera",
+    "label": "Sclera",
+    "group": "Wall of the eyeball",
+    "color": "#e6ddcf",
+    "description": "The tough white outer coat of the eyeball. It protects the eye and anchors the eye muscles."
+   },
+   {
+    "id": "choroid",
+    "label": "Choroid",
+    "group": "Wall of the eyeball",
+    "color": "#9a6a5c",
+    "description": "A layer rich in blood vessels between the sclera and the retina that nourishes the outer retina."
+   },
+   {
+    "id": "retina",
+    "label": "Retina",
+    "group": "Wall of the eyeball",
+    "color": "#d49a7c",
+    "description": "The light-sensitive lining at the back of the eye. It turns light into signals sent along the optic nerve."
+   },
+   {
+    "id": "iris",
+    "label": "Iris",
+    "group": "Wall of the eyeball",
+    "color": "#6f8f7a",
+    "description": "The coloured ring behind the cornea. Its muscles change the size of the pupil to control how much light enters."
+   },
+   {
+    "id": "anterior-chamber",
+    "label": "Anterior chamber",
+    "group": "Inside the eyeball",
+    "color": "#b9d3d8",
+    "description": "The fluid-filled space between the cornea and the iris. Its clear fluid, the aqueous humour, keeps the eye’s shape."
+   },
+   {
+    "id": "lens",
+    "label": "Lens",
+    "group": "Inside the eyeball",
+    "color": "#e0c98f",
+    "description": "A clear, flexible structure behind the iris that fine-tunes focus for near and far objects."
+   },
+   {
+    "id": "suspensory-ligament",
+    "label": "Suspensory ligament of lens",
+    "group": "Inside the eyeball",
+    "color": "#c7b28a",
+    "description": "Fine fibres that hold the lens in place. Changes in their tension let the lens change shape to focus."
+   },
+   {
+    "id": "vitreous-body",
+    "label": "Vitreous body",
+    "group": "Inside the eyeball",
+    "color": "#c9dbd5",
+    "description": "The clear gel that fills the large space behind the lens and helps hold the eye’s shape."
+   },
+   {
+    "id": "superior-rectus",
+    "label": "Superior rectus",
+    "group": "Eye muscles",
+    "color": "#b5675d",
+    "description": "One of the six muscles that move the eye. It mainly turns the eye upward."
+   },
+   {
+    "id": "inferior-rectus",
+    "label": "Inferior rectus",
+    "group": "Eye muscles",
+    "color": "#a85f58",
+    "description": "One of the six muscles that move the eye. It mainly turns the eye downward."
+   },
+   {
+    "id": "medial-rectus",
+    "label": "Medial rectus",
+    "group": "Eye muscles",
+    "color": "#bd7363",
+    "description": "One of the six muscles that move the eye. It turns the eye inward, toward the nose."
+   },
+   {
+    "id": "lateral-rectus",
+    "label": "Lateral rectus",
+    "group": "Eye muscles",
+    "color": "#c27b69",
+    "description": "One of the six muscles that move the eye. It turns the eye outward, away from the nose."
+   },
+   {
+    "id": "superior-oblique",
+    "label": "Superior oblique",
+    "group": "Eye muscles",
+    "color": "#c98872",
+    "description": "An eye muscle whose tendon passes through a small pulley, the trochlea, before reaching the eyeball. It mainly rotates the eye and helps it look down and out."
+   },
+   {
+    "id": "inferior-oblique",
+    "label": "Inferior oblique",
+    "group": "Eye muscles",
+    "color": "#b0705f",
+    "description": "An eye muscle that wraps under the eyeball from the front. It mainly rotates the eye and helps it look up and out."
+   },
+   {
+    "id": "levator-palpebrae",
+    "label": "Levator palpebrae superioris",
+    "group": "Eye muscles",
+    "color": "#d0977d",
+    "description": "The muscle that raises the upper eyelid. It does not move the eyeball."
+   },
+   {
+    "id": "optic-nerve",
+    "label": "Optic nerve",
+    "group": "Nerve and eyelid",
+    "color": "#e3c66f",
+    "description": "Carries visual signals from the retina to the brain."
+   },
+   {
+    "id": "trochlea",
+    "label": "Trochlea",
+    "group": "Nerve and eyelid",
+    "color": "#d9d2bf",
+    "description": "A small loop of cartilage that acts as a pulley for the tendon of the superior oblique muscle."
+   },
+   {
+    "id": "lacrimal-gland",
+    "label": "Lacrimal gland",
+    "group": "Nerve and eyelid",
+    "color": "#9fb6c7",
+    "description": "Makes the watery part of tears, which keep the front of the eye moist and clean."
+   },
+   {
+    "id": "upper-tarsal-plate",
+    "label": "Upper tarsal plate",
+    "group": "Nerve and eyelid",
+    "color": "#d6b3a3",
+    "description": "A firm plate of dense connective tissue that stiffens and shapes the upper eyelid."
+   },
+   {
+    "id": "lower-tarsal-plate",
+    "label": "Lower tarsal plate",
+    "group": "Nerve and eyelid",
+    "color": "#cfa999",
+    "description": "A firm plate of dense connective tissue that supports the lower eyelid."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D / Anatomography, © The Database Center for Life Science (DBCLS), CC BY-SA 2.1 Japan",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "source": "https://github.com/organui/eye-3d/blob/99f74f1c096ae2813dd18e1ecb2c9cbbd701c530/public/models/LICENSE.txt"
+  },
+  "size": [
+   4.399115085601807,
+   3.5439999103546143,
+   5.854100227355957
+  ]
+ },
+ "esophagus": {
+  "name": "Esophagus",
+  "src": "/organs/esophagus.glb",
+  "bytes": 4001332,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/esophagus-3d@ba0fddba344ae586f266586a9a30f3fce10f2aec/public/models/esophagus.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Left lateral",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "esophagus",
+    "label": "Esophagus",
+    "group": "Esophagus",
+    "color": "#e0956a",
+    "description": "A muscular tube about 25 cm long that carries swallowed food from the throat to the stomach. It runs behind the trachea and the heart and passes through the diaphragm."
+   },
+   {
+    "id": "stomach",
+    "label": "Stomach",
+    "group": "Neighbouring organs",
+    "color": "#c9a07a",
+    "description": "The esophagus ends just below the diaphragm, which is not shown, by opening into the stomach at the cardia."
+   },
+   {
+    "id": "trachea",
+    "label": "Trachea",
+    "group": "Neighbouring organs",
+    "color": "#b9c4cc",
+    "description": "The windpipe lies directly in front of the esophagus in the neck and upper chest, until it divides into the two main bronchi."
+   },
+   {
+    "id": "main-bronchi",
+    "label": "Main bronchi",
+    "group": "Neighbouring organs",
+    "color": "#a5b3bd",
+    "description": "The left main bronchus crosses in front of the esophagus and presses a shallow narrowing into it."
+   },
+   {
+    "id": "thyroid-gland",
+    "label": "Thyroid gland",
+    "group": "Neighbouring organs",
+    "color": "#b8869b",
+    "description": "Wraps around the front and sides of the trachea in the lower neck, beside the start of the esophagus."
+   },
+   {
+    "id": "left-atrium",
+    "label": "Left atrium",
+    "group": "Neighbouring organs",
+    "color": "#c47a86",
+    "description": "The back of the heart. The esophagus lies directly behind it, separated only by the pericardium."
+   },
+   {
+    "id": "aortic-arch",
+    "label": "Arch of aorta",
+    "group": "Arteries",
+    "color": "#b8564c",
+    "description": "Curves over the left main bronchus, crossing the left side of the esophagus and leaving a narrowing where it presses on it."
+   },
+   {
+    "id": "descending-aorta",
+    "label": "Descending aorta",
+    "group": "Arteries",
+    "color": "#a94a46",
+    "description": "Runs down behind and to the left of the esophagus. Near the diaphragm the esophagus crosses in front of it."
+   },
+   {
+    "id": "esophageal-arteries",
+    "label": "Esophageal arteries",
+    "group": "Arteries",
+    "color": "#de9878",
+    "description": "Small branches of the aorta that supply the thoracic part of the esophagus."
+   },
+   {
+    "id": "inferior-thyroid-arteries",
+    "label": "Inferior thyroid arteries",
+    "group": "Arteries",
+    "color": "#c9725f",
+    "description": "Supply the thyroid gland and send branches to the esophagus in the neck."
+   },
+   {
+    "id": "left-gastric-artery",
+    "label": "Left gastric artery",
+    "group": "Arteries",
+    "color": "#d0836c",
+    "description": "Runs along the upper curve of the stomach and sends branches up to the abdominal part of the esophagus."
+   },
+   {
+    "id": "azygos-vein",
+    "label": "Azygos vein",
+    "group": "Veins",
+    "color": "#5f7fa6",
+    "description": "Runs up the right side of the spine, behind the esophagus, and drains most of the esophagus in the chest."
+   },
+   {
+    "id": "hemiazygos-veins",
+    "label": "Hemiazygos veins",
+    "group": "Veins",
+    "color": "#7f9fbf",
+    "description": "Run up the left side of the spine and cross behind the aorta to join the azygos vein."
+   },
+   {
+    "id": "left-gastric-vein",
+    "label": "Left gastric vein",
+    "group": "Veins",
+    "color": "#93aecb",
+    "description": "Drains the lower esophagus into the portal system. Its link with the azygos veins is where esophageal varices form when portal pressure rises."
+   },
+   {
+    "id": "right-vagus-nerve",
+    "label": "Right vagus nerve",
+    "group": "Nerves",
+    "color": "#e0c25a",
+    "description": "Descends beside the esophagus, joins the esophageal plexus and passes through the hiatus mostly behind it, as the posterior vagal trunk."
+   },
+   {
+    "id": "left-vagus-nerve",
+    "label": "Left vagus nerve",
+    "group": "Nerves",
+    "color": "#c9a73f",
+    "description": "Crosses the aortic arch, then spreads over the esophagus and passes through the hiatus mostly in front of it, as the anterior vagal trunk."
+   },
+   {
+    "id": "recurrent-laryngeal-nerves",
+    "label": "Recurrent laryngeal nerves",
+    "group": "Nerves",
+    "color": "#ead27a",
+    "description": "Branches of the vagus that climb back up in the groove between the trachea and esophagus to reach the larynx."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI.",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "source": "https://github.com/organui/esophagus-3d/blob/ba0fddba344ae586f266586a9a30f3fce10f2aec/public/models/ATTRIBUTION.md"
+  },
+  "size": [
+   1.5593570470809937,
+   5.535009860992432,
+   1.5149309635162354
+  ]
+ },
+ "intestines": {
+  "name": "Intestines",
+  "src": "/organs/intestines.glb",
+  "bytes": 2366084,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/intestines-3d@8386b2327715f32b2ec62b403b94a3e5f6a307e2/public/models/intestines.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Left lateral",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "duodenum",
+    "label": "Duodenum",
+    "group": "Small intestine",
+    "color": "#d9a07c",
+    "description": "The first, C-shaped part of the small intestine. It receives food from the stomach along with bile and pancreatic juices."
+   },
+   {
+    "id": "jejunum",
+    "label": "Jejunum",
+    "group": "Small intestine",
+    "color": "#d68b80",
+    "description": "The middle part of the small intestine, where much of the digestion and absorption of nutrients takes place."
+   },
+   {
+    "id": "ileum",
+    "label": "Ileum",
+    "group": "Small intestine",
+    "color": "#c47783",
+    "description": "The last part of the small intestine. It continues absorbing nutrients and joins the large intestine in the lower right abdomen."
+   },
+   {
+    "id": "appendix",
+    "label": "Appendix",
+    "group": "Large intestine",
+    "color": "#b5868f",
+    "description": "A narrow, finger-shaped pouch that projects from the beginning of the large intestine in the lower right abdomen."
+   },
+   {
+    "id": "ascending-colon",
+    "label": "Ascending colon",
+    "group": "Large intestine",
+    "color": "#c2a17a",
+    "description": "Rises along the right side of the abdomen from the start of the large intestine toward the liver. The colon absorbs water and forms stool."
+   },
+   {
+    "id": "transverse-colon",
+    "label": "Transverse colon",
+    "group": "Large intestine",
+    "color": "#b8956c",
+    "description": "Crosses the upper abdomen from right to left, below the liver and stomach."
+   },
+   {
+    "id": "descending-colon",
+    "label": "Descending colon",
+    "group": "Large intestine",
+    "color": "#ad8a63",
+    "description": "Runs down the left side of the abdomen and carries stool toward the rectum."
+   },
+   {
+    "id": "rectum",
+    "label": "Rectum",
+    "group": "Large intestine",
+    "color": "#a07c5e",
+    "description": "The final straight section of the large intestine, in the pelvis, which stores stool until it leaves the body through the anus."
+   },
+   {
+    "id": "mesocolic-taenia",
+    "label": "Mesocolic taenia",
+    "group": "Taeniae coli",
+    "color": "#e3cfa6",
+    "description": "One of three ribbon-like bands of longitudinal muscle on the colon. It runs along the side where the colon is attached by its mesentery."
+   },
+   {
+    "id": "omental-taenia",
+    "label": "Omental taenia",
+    "group": "Taeniae coli",
+    "color": "#d8c08d",
+    "description": "A band of longitudinal colon muscle that, on the transverse colon, runs where the greater omentum attaches."
+   },
+   {
+    "id": "free-taenia",
+    "label": "Free taenia",
+    "group": "Taeniae coli",
+    "color": "#ead9b6",
+    "description": "The band of longitudinal colon muscle with no attachment, visible on the front of the ascending and descending colon."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI.",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "source": "https://github.com/organui/intestines-3d/blob/8386b2327715f32b2ec62b403b94a3e5f6a307e2/public/models/LICENSE.txt"
+  },
+  "size": [
+   2.931180000305176,
+   3.8373959064483643,
+   2.2278025150299072
+  ]
+ },
+ "larynx": {
+  "name": "Larynx",
+  "src": "/organs/larynx.glb",
+  "bytes": 5257920,
+  "upstream": "https://cdn.jsdelivr.net/gh/organui/larynx-3d@aa18162e23a7617b1db91e5b929f05940fede2b2/public/models/larynx.glb",
+  "defaultView": "Anterior",
+  "views": [
+   {
+    "name": "Anterior",
+    "direction": [
+     0,
+     0,
+     1
+    ]
+   },
+   {
+    "name": "Posterior",
+    "direction": [
+     0,
+     0,
+     -1
+    ]
+   },
+   {
+    "name": "Left lateral",
+    "direction": [
+     1,
+     0,
+     0
+    ]
+   },
+   {
+    "name": "Superior",
+    "direction": [
+     0,
+     1,
+     0.35
+    ]
+   }
+  ],
+  "structures": [
+   {
+    "id": "hyoid-bone",
+    "label": "Hyoid bone",
+    "group": "Cartilages and bone",
+    "color": "#e6d8b8",
+    "description": "A U-shaped bone above the larynx that touches no other bone. The larynx hangs from it by the thyrohyoid membrane."
+   },
+   {
+    "id": "thyroid-cartilage",
+    "label": "Thyroid cartilage",
+    "group": "Cartilages and bone",
+    "color": "#9fb9c4",
+    "description": "The largest cartilage of the larynx. Its two plates meet at the front to form the laryngeal prominence, the Adam’s apple, and shield the vocal folds."
+   },
+   {
+    "id": "cricoid-cartilage",
+    "label": "Cricoid cartilage",
+    "group": "Cartilages and bone",
+    "color": "#88a8b8",
+    "description": "The only complete ring of cartilage in the airway, narrow at the front and tall at the back. It sits below the thyroid cartilage and on top of the trachea."
+   },
+   {
+    "id": "epiglottis",
+    "label": "Epiglottis",
+    "group": "Cartilages and bone",
+    "color": "#b7c99e",
+    "description": "A leaf-shaped flap of elastic cartilage behind the tongue. It tips back over the entrance of the larynx when you swallow."
+   },
+   {
+    "id": "arytenoid-cartilages",
+    "label": "Arytenoid cartilages",
+    "group": "Cartilages and bone",
+    "color": "#7e9cc2",
+    "description": "Two small pyramids on the back of the cricoid. The vocal ligaments attach to them, so their rocking and sliding opens and closes the vocal folds."
+   },
+   {
+    "id": "corniculate-cuneiform-cartilages",
+    "label": "Corniculate and cuneiform cartilages",
+    "group": "Cartilages and bone",
+    "color": "#a99cc7",
+    "description": "Tiny nodules of cartilage. The corniculates cap the arytenoids and the cuneiforms stiffen the aryepiglottic folds at the entrance of the larynx."
+   },
+   {
+    "id": "thyrohyoid-membrane",
+    "label": "Thyrohyoid membrane",
+    "group": "Ligaments and membranes",
+    "color": "#d9c48f",
+    "description": "A sheet that hangs the thyroid cartilage from the hyoid bone. It is thickened in the midline and at its back edges into the thyrohyoid ligaments."
+   },
+   {
+    "id": "cricothyroid-ligament",
+    "label": "Median cricothyroid ligament",
+    "group": "Ligaments and membranes",
+    "color": "#e0b56e",
+    "description": "Bridges the gap at the front between the thyroid and cricoid cartilages. It can be felt just below the Adam’s apple."
+   },
+   {
+    "id": "conus-elasticus",
+    "label": "Conus elasticus",
+    "group": "Ligaments and membranes",
+    "color": "#c7b07a",
+    "description": "An elastic membrane rising from the cricoid toward the vocal folds. Its free upper edge thickens into the vocal ligaments."
+   },
+   {
+    "id": "vocal-ligaments",
+    "label": "Vocal ligaments",
+    "group": "Ligaments and membranes",
+    "color": "#f0d27a",
+    "description": "Two bands running from the back of the thyroid cartilage to the arytenoids. With the vocalis muscles they form the vocal folds, which vibrate to make sound."
+   },
+   {
+    "id": "epiglottic-ligaments",
+    "label": "Epiglottic ligaments",
+    "group": "Ligaments and membranes",
+    "color": "#cdb98c",
+    "description": "Tie the epiglottis forward to the hyoid bone and its stalk down to the inside of the thyroid cartilage."
+   },
+   {
+    "id": "cricothyroid-muscle",
+    "label": "Cricothyroid",
+    "group": "Muscles",
+    "color": "#c56b5c",
+    "description": "The only intrinsic muscle on the outside of the larynx. It tilts the thyroid cartilage forward, stretching the vocal folds and raising the pitch of the voice."
+   },
+   {
+    "id": "posterior-crico-arytenoid",
+    "label": "Posterior crico-arytenoid",
+    "group": "Muscles",
+    "color": "#b45a52",
+    "description": "On the back of the cricoid. It is the only muscle that opens the vocal folds, which keeps the airway open for breathing."
+   },
+   {
+    "id": "lateral-crico-arytenoid",
+    "label": "Lateral crico-arytenoid",
+    "group": "Muscles",
+    "color": "#d07f6b",
+    "description": "Rotates the arytenoids inward to bring the vocal folds together."
+   },
+   {
+    "id": "arytenoid-muscles",
+    "label": "Arytenoid muscles",
+    "group": "Muscles",
+    "color": "#a8524f",
+    "description": "Span the backs of the two arytenoids. They pull the cartilages together to close the back of the glottis."
+   },
+   {
+    "id": "thyro-arytenoid",
+    "label": "Thyro-arytenoid",
+    "group": "Muscles",
+    "color": "#d99282",
+    "description": "Runs beside the vocal folds from the thyroid cartilage to the arytenoids. It shortens and relaxes the folds, lowering the pitch."
+   },
+   {
+    "id": "vocalis",
+    "label": "Vocalis",
+    "group": "Muscles",
+    "color": "#e3a08c",
+    "description": "The innermost fibres of the thyro-arytenoid, lying along each vocal ligament. They fine-tune the tension of the vocal folds."
+   },
+   {
+    "id": "aryepiglottic-muscle",
+    "label": "Aryepiglottic",
+    "group": "Muscles",
+    "color": "#bd7468",
+    "description": "Thin fibres running from the arytenoids up to the sides of the epiglottis. They help narrow the entrance of the larynx when you swallow."
+   },
+   {
+    "id": "trachea",
+    "label": "Trachea",
+    "group": "Airway",
+    "color": "#d7a1a4",
+    "description": "The windpipe. It continues from the cricoid cartilage down into the chest, held open by C-shaped rings of cartilage, and divides into the two main bronchi."
+   },
+   {
+    "id": "thyroid-gland",
+    "label": "Thyroid gland",
+    "group": "Neighbouring organs",
+    "color": "#a5675f",
+    "description": "A hormone gland wrapped around the front of the upper trachea. Its isthmus crosses the trachea just below the cricoid cartilage."
+   }
+  ],
+  "attribution": {
+   "credit": "BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI.",
+   "license": "CC BY-SA 2.1 JP",
+   "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en",
+   "source": "https://github.com/organui/larynx-3d/blob/aa18162e23a7617b1db91e5b929f05940fede2b2/public/models/ATTRIBUTION.md"
+  },
+  "size": [
+   0.6591663956642151,
+   2.4923200607299805,
+   0.8261439800262451
+  ]
+ }
+}

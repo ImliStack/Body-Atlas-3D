@@ -1,0 +1,24 @@
+# Organ model attribution
+
+Detailed organ models are from the OrganUI organ explorers (https://github.com/organui, code MIT).
+Each model keeps its own licence, listed below. Files are unmodified copies of the GLBs at the pinned commits.
+
+| Organ | Licence | Credit | Source |
+|---|---|---|---|
+| Heart | [CC BY 4.0](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html) | BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International | [heart](https://github.com/organui/heart-3d/blob/c72ce6654ff8e282942f97750d3104f55ef4fc3d/public/models/ATTRIBUTION.md) |
+| Brain | [CC BY 4.0](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html) | BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International | [brain](https://github.com/organui/brain-3d/blob/e2f8c172716d8f4e8db6080b7d23f38fabe3add8/public/models/ATTRIBUTION.md) |
+| Lungs | [CC BY-SA 2.1 JP](https://lifesciencedb.jp/bp3d/info/index.html#License) | BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI. | [lungs](https://github.com/organui/lungs-3d/blob/5815084f43efe438ebfae3fd889ee2baf343dfbf/public/models/LICENSE.txt) |
+| Liver | [CC BY 4.0](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html) | BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International | [liver](https://github.com/organui/liver-3d/blob/528ee1794670d3bfa23d581f91ba49d6af585b03/public/models/LICENSE.txt) |
+| Kidneys | [CC BY 4.0](https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html) | BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International | [kidneys](https://github.com/organui/kidneys-3d/blob/880b7c9cdf9f2272eee7741b01ccb34454adb30c/public/models/LICENSE.txt) |
+| Stomach | [CC BY-SA 2.1 JP](https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en) | BodyParts3D, © The Database Center for Life Science licensed under CC Attribution-Share Alike 2.1 Japan | [stomach](https://github.com/organui/stomach-3d/blob/a945af4e28cc37da63143c685293e7dae7e7f6d5/public/models/ATTRIBUTION.md) |
+| Pancreas | [CC BY-SA 2.1 JP](https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en) | BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI. | [pancreas](https://github.com/organui/pancreas-3d/blob/b96dcf3c234b2b6dba9473661b1d604532301a67/public/models/ATTRIBUTION.md) |
+| Spleen | [CC BY-SA 2.1 JP](https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en) | BodyParts3D, © The Database Center for Life Science licensed under CC Attribution-Share Alike 2.1 Japan | [spleen](https://github.com/organui/spleen-3d/blob/5059a958d2c39547294d39de8ec296fda3888148/public/models/ATTRIBUTION.md) |
+| Gallbladder | [CC BY-SA 2.1 JP](https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en) | BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI. | [gallbladder](https://github.com/organui/gallbladder-3d/blob/15b03b830abe55e1081ac929dcbe6318d84e4067/public/models/ATTRIBUTION.md) |
+| Bladder | [CC BY-SA 2.1 JP](https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en) | BodyParts3D, © The Database Center for Life Science licensed under CC Attribution-Share Alike 2.1 Japan | [bladder](https://github.com/organui/bladder-3d/blob/36674f5d09ba1c9c58a3f76c944705c23ee91375/public/models/ATTRIBUTION.md) |
+| Eye | [CC BY-SA 2.1 JP](https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en) | BodyParts3D / Anatomography, © The Database Center for Life Science (DBCLS), CC BY-SA 2.1 Japan | [eye](https://github.com/organui/eye-3d/blob/99f74f1c096ae2813dd18e1ecb2c9cbbd701c530/public/models/LICENSE.txt) |
+| Esophagus | [CC BY-SA 2.1 JP](https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en) | BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI. | [esophagus](https://github.com/organui/esophagus-3d/blob/ba0fddba344ae586f266586a9a30f3fce10f2aec/public/models/ATTRIBUTION.md) |
+| Intestines | [CC BY-SA 2.1 JP](https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en) | BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI. | [intestines](https://github.com/organui/intestines-3d/blob/8386b2327715f32b2ec62b403b94a3e5f6a307e2/public/models/LICENSE.txt) |
+| Larynx | [CC BY-SA 2.1 JP](https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en) | BodyParts3D / Anatomography, © The Database Center for Life Science. CC BY-SA 2.1 Japan. Adapted by OrganUI. | [larynx](https://github.com/organui/larynx-3d/blob/aa18162e23a7617b1db91e5b929f05940fede2b2/public/models/ATTRIBUTION.md) |
+
+ShareAlike models (CC BY-SA) require adapted versions of those models to be shared under the same licence.
+Educational use only — not a clinical tool.
