@@ -1,287 +1,347 @@
+<div align="center">
+
+<img src="docs/logo.svg" width="84" height="84" alt="Body Atlas logo" />
+
 # Body Atlas 3D
 
-An interactive 3D human anatomy atlas that runs entirely in the browser. Turn a full adult
-body, peel it back system by system, click any of its 2,234 structures to learn what it is,
-and open 14 organs in detailed models you can take apart. There's nothing to install and no
-plugin. It's a static site that works on desktop and mobile.
+**Explore the human body in 3D — right in your browser.**
 
-![Body Atlas — whole body with a hover label](docs/screenshots/overview-hover.jpg)
+Turn a full adult body, peel it back system by system, click any of 2,234 structures,
+and open 14 organs in detailed models you can take apart. No install, no plugin.
 
-<p align="center">
-  <img src="docs/screenshots/heart-structure.jpg" width="49%" alt="Heart deep-dive with the left ventricular cavity selected" />
-  <img src="docs/screenshots/brain-dark.jpg" width="49%" alt="Brain deep-dive in the dark theme" />
-</p>
+[![React 19](https://img.shields.io/badge/React-19-61dafb?style=flat-square&logo=react&logoColor=white)](https://react.dev)
+[![three.js](https://img.shields.io/badge/three.js-r186-000000?style=flat-square&logo=three.js&logoColor=white)](https://threejs.org)
+[![React Three Fiber](https://img.shields.io/badge/React_Three_Fiber-9-56653f?style=flat-square)](https://github.com/pmndrs/react-three-fiber)
+[![Vite 5](https://img.shields.io/badge/Vite-5-646cff?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
+[![Node ≥ 18](https://img.shields.io/badge/node-%E2%89%A5%2018-3c873a?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
+[![Data: CC BY 4.0](https://img.shields.io/badge/anatomy_data-CC_BY_4.0-bc9c7e?style=flat-square)](public/ATTRIBUTION.md)
 
----
+[Features](#-features) · [Quick start](#-quick-start) · [Shortcuts](#-keyboard-shortcuts) · [How it works](#-how-it-works) · [Project structure](#-project-structure) · [Roadmap](#-roadmap)
 
-## Contents
+<br />
 
-- [Features](#features)
-- [Getting started](#getting-started)
-- [Using the atlas](#using-the-atlas)
-- [Keyboard shortcuts](#keyboard-shortcuts)
-- [Shareable links](#shareable-links)
-- [How it works](#how-it-works)
-- [Project structure](#project-structure)
-- [Customising](#customising)
-- [Browser support & performance](#browser-support--performance)
-- [Deployment](#deployment)
-- [Roadmap](#roadmap)
-- [Data, credits & licence](#data-credits--licence)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/overview-hover-dark.jpg" />
+  <img src="docs/screenshots/overview-hover.jpg" alt="Body Atlas — the whole body with a hover label on a rib cartilage" width="100%" />
+</picture>
 
----
+<sub>The hero image follows your GitHub theme — light or dark.</sub>
 
-## Features
+</div>
 
-| | |
-|---|---|
-| **Whole-body model** | 2,234 individually selectable meshes from BodyParts3D 4.0, grouped into 15 body systems. |
-| **System layers** | Show or hide any system from the sidebar. Muscles and skin start hidden so the organs are visible. |
-| **Search** | Instant search across every structure and 3,432 named concepts, such as "femur", "aorta" or "left kidney". |
-| **Organ deep-dives** | 14 organs open as detailed models with labelled parts. The heart beats and the lungs breathe while you read. |
-| **Hover labels** | The name and system of whatever is under the mouse, like labels on a map. |
-| **Preset views** | Front, back, left and right, one click each, plus a 360° turntable. |
-| **X-ray mode** | Every layer turns translucent so you can see what sits behind what. Bones stay readable. |
-| **Isolate** | Hide everything except the selected structure and study it alone from every angle. |
-| **Quiz yourself** | Eight "Find the …" rounds with hints and a score at the end. |
-| **Shareable links** | The URL always matches what's on screen, so you can send someone straight to the heart. |
-| **Save image** | Export the current 3D view as a PNG. |
-| **Light & dark themes** | Follows your system setting and is remembered per browser. |
-| **Keyboard first** | Every tool has a shortcut. Press `?` to see them. |
-| **Accessible motion** | `prefers-reduced-motion` turns every animation into an instant cut. |
-| **Graceful fallback** | Without WebGL, the panels, search and facts still work, and the page explains why the 3D view is missing. |
+<br />
 
----
+## ✦ At a glance
 
-## Getting started
+<table>
+  <tr>
+    <td align="center"><b>2,234</b><br /><sub>selectable structures</sub></td>
+    <td align="center"><b>15</b><br /><sub>body systems</sub></td>
+    <td align="center"><b>3,432</b><br /><sub>searchable names</sub></td>
+    <td align="center"><b>14</b><br /><sub>organ deep-dives</sub></td>
+    <td align="center"><b>2.29 M</b><br /><sub>triangles, in-browser</sub></td>
+  </tr>
+</table>
 
-**Requirements:** Node.js 18 or newer and npm. The project is pinned to Vite 5, so Node 18 works.
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/heart-structure.jpg" alt="Heart deep-dive with the left ventricular cavity selected" /></td>
+    <td width="50%"><img src="docs/screenshots/brain-dark.jpg" alt="Brain deep-dive in the dark theme" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>Organ deep-dive</b> — click a part to read about it</sub></td>
+    <td align="center"><sub><b>Dark theme</b> — the brain, lobe by lobe</sub></td>
+  </tr>
+</table>
+
+## ✦ Features
+
+**See**
+- **Whole-body model** — 2,234 meshes from BodyParts3D 4.0, grouped into 15 systems.
+- **System layers** — show or hide any system; muscles and skin start hidden so the organs show.
+- **X-ray mode** — every layer turns translucent so you can see what sits behind what.
+- **Preset views** — front, back, left, right, plus a 360° turntable.
+- **Light & dark themes** — follows your system, remembered per browser.
+
+**Learn**
+- **Hover labels** — the name and system of whatever is under the mouse.
+- **Search** — instant, across every structure and named group ("femur", "aorta", "left kidney").
+- **Organ deep-dives** — 14 organs lift out of the body as labelled models; the heart beats and the lungs breathe while you read.
+- **Quiz yourself** — eight "Find the …" rounds with hints and a final score.
+
+**Share**
+- **Shareable links** — the URL always matches what is on screen.
+- **Save image** — export the current 3D view as a PNG.
+
+**Built right**
+- **Keyboard first** — every tool has a shortcut; press <kbd>?</kbd> for the list.
+- **Reduced motion** — `prefers-reduced-motion` turns every animation into an instant cut.
+- **Graceful fallback** — without WebGL, panels, search and facts still work and the page says why.
+- **Mobile layout** — search on top, the body in the middle, details below.
+
+<table>
+  <tr>
+    <td width="37%"><img src="docs/screenshots/xray.jpg" alt="X-ray mode" /></td>
+    <td width="37%"><img src="docs/screenshots/quiz.jpg" alt="Quiz round with a hint after a wrong guess" /></td>
+    <td width="16%"><img src="docs/screenshots/mobile-lungs.jpg" alt="Mobile layout with the lungs open" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>X-ray</b></sub></td>
+    <td align="center"><sub><b>Quiz</b> — a hint after a miss</sub></td>
+    <td align="center"><sub><b>Mobile</b></sub></td>
+  </tr>
+</table>
+
+## ✦ Quick start
+
+> **Requires** Node.js 18+ and npm.
 
 ```bash
 git clone https://github.com/ImliStack/Body-Atlas-3D.git
 cd Body-Atlas-3D
 npm install
-npm run dev
+npm run dev        # → http://localhost:5180
 ```
 
-Open <http://localhost:5180>. The first visit downloads about 31 MB of compressed anatomy
-geometry in 15 chunks, with a progress bar while it assembles. The browser caches it after that.
+The first visit downloads ~31 MB of compressed geometry (15 chunks, with a progress bar);
+after that it comes from the browser cache.
 
 | Script | What it does |
 |---|---|
 | `npm run dev` | Dev server with hot reload on port 5180 |
-| `npm run build` | Production build into `dist/` |
-| `npm run preview` | Serve the built `dist/` locally on port 5180 |
+| `npm run build` | Static production build into `dist/` |
+| `npm run preview` | Serve `dist/` locally on port 5180 |
 
----
+## ✦ Using the atlas
 
-## Using the atlas
+<details open>
+<summary><b>Explore the body</b></summary>
+<br />
 
-### Explore the body
+Drag to orbit · scroll to zoom · right-drag to pan. Click any structure to select it: the camera
+flies in, the rest of the body fades back, and the panel shows its system, region, side, size and
+the larger groups it belongs to. The **eye** icons in the sidebar switch systems on and off;
+clicking a system's name focuses it with a short introduction.
 
-Drag to orbit, scroll to zoom and right-drag to pan. Click any structure to select it. The
-camera flies to it, the rest of the body fades back, and the right panel shows its system,
-region, side, real-world size and the larger structures it belongs to.
+<img src="docs/screenshots/search-dark.jpg" alt="Searching for the femur in the dark theme" width="100%" />
 
-Use the **eye** icons in the sidebar to switch systems on and off. Click a system's name to
-focus on it and get a short introduction with suggested starting points.
+</details>
 
-<p align="center">
-  <img src="docs/screenshots/xray.jpg" width="49%" alt="X-ray mode" />
-  <img src="docs/screenshots/search-dark.jpg" width="49%" alt="Searching for the femur in the dark theme" />
-</p>
+<details>
+<summary><b>Open an organ</b></summary>
+<br />
 
-### Open an organ
+Click an organ in the body or a quick pick along the top. The click flashes, the body steps
+back, the camera springs in and a detailed model lifts out in the organ's place. Click its parts —
+heart chambers, lung lobes, brain lobes — to read about each. **← Body** or <kbd>Esc</kbd> plays
+the move in reverse.
 
-Click an organ in the body, or use a quick pick along the top. The selected organ flashes, the
-body steps back, the camera springs in, and a detailed model lifts out of the body in its place.
-Click its parts, such as heart chambers, lung lobes or brain lobes, to read about each one.
-**← Body** or `Esc` plays the move in reverse.
+Heart · brain · lungs · liver · kidneys · stomach · pancreas · spleen · gallbladder · bladder ·
+eye · esophagus · intestines · larynx.
 
-Organs with a deep-dive: heart, brain, lungs, liver, kidneys, stomach, pancreas, spleen,
-gallbladder, bladder, eye, esophagus, intestines and larynx.
+</details>
 
-### Quiz yourself
+<details>
+<summary><b>Quiz yourself</b></summary>
+<br />
 
-Choose **Quiz yourself** in the sidebar. Each round asks for one structure. Find it on the
-first try for a point, or on the second try for half a point. After two misses the answer is
-shown with a hint. Hover labels are switched off during the quiz so they can't give the answer
-away.
+Choose **Quiz yourself** in the sidebar. Each round asks for one structure: a first-try find
+scores 1, a second try ½, and after two misses the answer is shown with a hint. Hover labels
+switch off during the quiz so they can't give the answer away.
 
-<p align="center">
-  <img src="docs/screenshots/quiz.jpg" width="66%" alt="Quiz round: find the stomach, with a hint after a wrong guess" />
-  <img src="docs/screenshots/mobile-lungs.jpg" width="24%" alt="Mobile layout with the lungs open" />
-</p>
+</details>
 
----
+<details>
+<summary><b>Share a view</b></summary>
+<br />
 
-## Keyboard shortcuts
-
-| Key | Action | | Key | Action |
-|---|---|---|---|---|
-| `/` | Focus search | | `R` | Auto-rotate on/off |
-| `Esc` | Back / clear selection | | `I` | Isolate selection |
-| `F` | Fit to view | | `X` | X-ray |
-| `+` `−` | Zoom in / out | | `L` | Studio lighting |
-| `1` `2` `3` `4` | Front / back / left / right view | | `P` | Save image |
-| `T` | Light / dark theme | | `?` | Shortcuts & credits |
-
-In search, `↑` `↓` move through the results and `Enter` opens one.
-
----
-
-## Shareable links
-
-The URL hash always matches what's open. Copy it with the share button in the top bar, or
-just copy the address bar.
+The URL hash follows what's open — copy it from the address bar or use the share button.
 
 | Link | Opens |
 |---|---|
-| `#organ/heart` | Organ deep-dive (`heart`, `brain`, `lungs`, `liver`, `kidneys`, …) |
-| `#featured/skull` | Featured structure (`skull`, `spine`, `femur`) |
-| `#concept/femur` | Any named concept, lower-case and URL-encoded (`#concept/left%20kidney`) |
-| `#part/FJ1252` | A single mesh by its BodyParts3D id |
-| `#system/venous` | A body system overview |
+| `#organ/heart` | An organ deep-dive (`heart`, `brain`, `lungs`, `liver`, …) |
+| `#featured/skull` | A featured structure (`skull`, `spine`, `femur`) |
+| `#concept/femur` | Any named group, lower-case and URL-encoded (`#concept/left%20kidney`) |
+| `#part/FJ1252` | One mesh by its BodyParts3D id |
+| `#system/venous` | A body-system overview |
 
-Unknown links fall back to the whole-body view. The hash is updated with `replaceState`, so
-clicking around doesn't fill up the browser history.
+Unknown links fall back to the whole body. Updates use `replaceState`, so clicking around
+doesn't flood the browser history.
 
----
+</details>
 
-## How it works
+## ✦ Keyboard shortcuts
 
-**Geometry.** BodyParts3D meshes are pre-packed into 15 gzipped binary chunks
-(`public/models/body-*.bin.gz`) with a JSON manifest (`atlas.json`) that lists every part's
-name, system, byte offsets and bounding box. Three workers fetch the chunks in parallel. If the
-host hasn't already decompressed a chunk, the browser's `DecompressionStream` does, and each
-part becomes a `THREE.BufferGeometry` that reads straight from the buffer without copying.
+| Key | Action | | Key | Action |
+|:---:|---|---|:---:|---|
+| <kbd>/</kbd> | Search | | <kbd>R</kbd> | Auto-rotate |
+| <kbd>Esc</kbd> | Back / clear | | <kbd>I</kbd> | Isolate selection |
+| <kbd>F</kbd> | Fit to view | | <kbd>X</kbd> | X-ray |
+| <kbd>+</kbd> <kbd>−</kbd> | Zoom | | <kbd>L</kbd> | Studio lighting |
+| <kbd>1</kbd> – <kbd>4</kbd> | Front · back · left · right | | <kbd>P</kbd> | Save image |
+| <kbd>T</kbd> | Light / dark theme | | <kbd>?</kbd> | Shortcuts & credits |
 
-**Rendering outside React.** All 2,234 meshes live in one plain `THREE.Group` that React
-never reconciles. When the selection, layers or x-ray change, `applyState()` updates
-visibility, material and render layer in a single pass. Materials are shared per system
-(solid / ghost / glow / x-ray), so a state change swaps references and never creates new
-materials.
+In search, <kbd>↑</kbd> <kbd>↓</kbd> move through results and <kbd>Enter</kbd> opens one.
 
-**Picking.** Hover and click raycasting uses [three-mesh-bvh](https://github.com/gkjohnson/three-mesh-bvh).
-The BVH trees are built in `requestIdleCallback` slices after load, so the first frames stay
-smooth. Until a mesh has its tree, it falls back to the standard raycast. Faded "ghost" layers
-are skipped in favour of solid structures, so a click lands on what you can actually see.
+## ✦ How it works
 
-**Camera.** [camera-controls](https://github.com/yomotsu/camera-controls), through drei, handles
-the fly-to, fit-to-box and preset views. Small structures get extra padding, so a single tooth
-still shows some of the jaw around it.
-
-**State.** A single [zustand](https://github.com/pmndrs/zustand) store (`src/store.js`) holds
-the selection, layers, quiz, theme and camera commands. It also builds the search index
-when the manifest arrives. Every selection follows the same timeline: press → clear → fly →
-lift → reveal → hold. That timeline is scheduled from one timing table.
-
-**Motion.** Every duration lives in [`src/motion.js`](src/motion.js), in seconds, so you can
-retune a move by editing one number. The organ lift uses a damped spring with a little
-overshoot, panel lines arrive with a stagger, and the heartbeat and breathing are small
-procedural scale curves.
-
-**Organ models.** Each organ is a GLB (`public/organs/*.glb`), with its labelled structures,
-groups, colours and credits described in `src/organ-models.json`. Models load on first open
-and stay cached after that.
-
----
-
-## Project structure
-
-```
-src/
-  App.jsx               layout, search, quick picks, tools, views, hover label, shortcuts, loader
-  store.js              zustand store, search index, selection timeline, quiz logic
-  links.js              URL hash <-> current view (shareable links)
-  data.js               body systems, colours, featured structures, quiz rounds, copy
-  organs.js             organ deep-dives: body concepts, copy, facts, idle animation, quick picks
-  organ-models.json     organ model data: structures, groups, colours, credits
-  motion.js             all timings + spring / heartbeat / breathing helpers
-  styles.css            design tokens (light + dark), layout, components
-  scene/
-    Stage.jsx           R3F canvas: lights, body, picking, camera rig, floor shadow, PNG export
-    meshes.js           chunk loading, mesh building, materials, BVH, applyState()
-    fx.js               shared animated values (ghost fade, press flash, organ dissolve)
-    OrganDetail.jsx     lifted-out organ: fade, spring, idle motion, part picking
-    organLoader.js      cached GLB loading
-  ui/
-    Sidebar.jsx         navigation, system layers, quiz entry, featured card
-    Panel.jsx           right column: overview, system, selection, organ and quiz views
-    Icon.jsx            24px stroke icon set
-public/
-  models/               atlas.json manifest + body-*.bin.gz geometry chunks
-  organs/               14 organ GLBs + ATTRIBUTION.md
-  ATTRIBUTION.md        full data credits
-docs/screenshots/       images used in this README
+```mermaid
+flowchart LR
+    A["atlas.json<br/>manifest"] --> B["store.js<br/>search index"]
+    C["body-*.bin.gz<br/>15 chunks"] --> D["meshes.js<br/>2,234 meshes"]
+    D --> E["Stage.jsx<br/>R3F canvas"]
+    B --> F["UI<br/>Sidebar · Panel · Search"]
+    F -->|"select · layers · x-ray"| B
+    B -->|"applyState()"| D
+    B -->|"camera commands"| E
+    G["organs/*.glb"] --> H["OrganDetail.jsx<br/>lift-out model"]
+    H --> E
+    B <-->|"URL hash"| I["links.js<br/>shareable URL"]
 ```
 
----
+| Piece | Approach |
+|---|---|
+| **Geometry** | BodyParts3D meshes are pre-packed into 15 gzipped binary chunks plus a JSON manifest (names, systems, byte offsets, bounds). Three workers fetch them in parallel; `DecompressionStream` unzips them when the host hasn't; each part becomes a zero-copy `BufferGeometry`. |
+| **Rendering** | All 2,234 meshes live in one plain `THREE.Group` that React never reconciles. `applyState()` flips visibility, material and render layer in one pass, using shared per-system materials (solid · ghost · glow · x-ray). |
+| **Picking** | [three-mesh-bvh](https://github.com/gkjohnson/three-mesh-bvh) powers hover and click. Trees are built in `requestIdleCallback` slices after load; faded layers are skipped so a click lands on what you can see. |
+| **Camera** | [camera-controls](https://github.com/yomotsu/camera-controls) (via drei) handles fly-to, fit-to-box and preset views, padding small structures so a single tooth still shows its jaw. |
+| **State** | One [zustand](https://github.com/pmndrs/zustand) store holds selection, layers, quiz, theme and camera commands. Every selection runs the same timeline: *press → clear → fly → lift → reveal → hold*. |
+| **Motion** | Every duration lives in [`src/motion.js`](src/motion.js). The organ lift is a damped spring with slight overshoot; heartbeat and breathing are small procedural scale curves. |
 
-## Customising
+## ✦ Project structure
 
-- **Add a quiz round:** add an entry to `QUIZ` in `src/data.js` with a title, the
-  BodyParts3D concept names, a system and a one-line hint. Rounds whose concepts don't
-  exist in the atlas are skipped automatically.
-- **Change the quick picks:** edit `PICKS` at the bottom of `src/organs.js`.
-- **Retune an animation:** change the value in `src/motion.js`. Every move reads from there.
-- **Re-colour a system:** edit its `color` in `SYSTEMS` in `src/data.js`. The 3D materials,
-  swatches and chips all follow it.
-- **Theme colours:** every UI colour is a CSS custom property at the top of `src/styles.css`,
-  with the dark values under `:root[data-theme='dark']`.
+```text
+Body-Atlas-3D/
+├── index.html                  App shell, fonts, meta tags
+├── package.json
+├── vite.config.js
+├── PLAN.md                     Research notes and milestones
+├── docs/
+│   ├── logo.svg
+│   └── screenshots/            Images used in this README
+├── public/
+│   ├── ATTRIBUTION.md          Full data credits
+│   ├── models/
+│   │   ├── atlas.json          Manifest: parts, systems, offsets, bounds
+│   │   └── body-*.bin.gz       15 packed geometry chunks
+│   └── organs/
+│       ├── *.glb               14 organ models
+│       └── ATTRIBUTION.md      Per-model licences
+└── src/
+    ├── main.jsx                React entry
+    ├── App.jsx                 Layout, search, quick picks, tools, shortcuts, loader
+    ├── store.js                Zustand store, search index, selection timeline, quiz
+    ├── links.js                URL hash ⇄ current view
+    ├── data.js                 Systems, colours, featured structures, quiz rounds
+    ├── organs.js               Organ copy, facts, idle animation, quick picks
+    ├── organ-models.json       Organ parts, groups, colours, credits
+    ├── motion.js               All timings + spring / heartbeat / breathing
+    ├── styles.css              Design tokens (light + dark), layout, components
+    ├── scene/
+    │   ├── Stage.jsx           Canvas, lights, picking, camera rig, PNG export
+    │   ├── meshes.js           Chunk loading, materials, BVH, applyState()
+    │   ├── OrganDetail.jsx     Lifted-out organ: fade, spring, idle, part picking
+    │   ├── organLoader.js      Cached GLB loading
+    │   └── fx.js               Shared animated values (fade, flash, dissolve)
+    └── ui/
+        ├── Sidebar.jsx         Navigation, system layers, quiz entry
+        ├── Panel.jsx           Overview, system, selection, organ and quiz views
+        └── Icon.jsx            24 px stroke icon set
+```
 
----
+**Where to start reading:** [`src/store.js`](src/store.js) for behaviour,
+[`src/scene/meshes.js`](src/scene/meshes.js) for the 3D body,
+[`src/ui/Panel.jsx`](src/ui/Panel.jsx) for what the right column shows.
 
-## Browser support & performance
+## ✦ Customising
 
-- Works in current Chrome, Edge, Firefox and Safari, on desktop and mobile. It needs WebGL,
-  which is on by default unless hardware acceleration is disabled.
-- About 2.29 million triangles across 2,234 meshes. Device pixel ratio is capped at 2 to
-  keep high-density screens smooth.
-- The first load is about 31 MB of geometry plus up to 14 organ models that load as you open
-  them. After that, everything comes from the browser cache.
-- On touch screens, hover labels and shortcut hints are hidden, and the native share sheet
-  is used for links.
+| To… | Edit |
+|---|---|
+| Add a quiz round | `QUIZ` in [`src/data.js`](src/data.js) — title, BodyParts3D concept names, system, hint |
+| Change the quick picks | `PICKS` at the end of [`src/organs.js`](src/organs.js) |
+| Retune an animation | The value in [`src/motion.js`](src/motion.js) — every move reads from there |
+| Re-colour a system | Its `color` in `SYSTEMS` in [`src/data.js`](src/data.js) — 3D materials and UI follow |
+| Change theme colours | CSS custom properties at the top of [`src/styles.css`](src/styles.css) (`:root[data-theme='dark']` for dark) |
 
----
+## ✦ Browser support & deployment
 
-## Deployment
+Works in current **Chrome, Edge, Firefox and Safari** on desktop and mobile; WebGL must be
+available (it is unless hardware acceleration is off). Device pixel ratio is capped at 2.
 
-`npm run build` outputs a fully static site to `dist/`. You can host it on any static host,
-such as Vercel, Netlify, Cloudflare Pages or GitHub Pages, with no server or environment
-variables.
+`npm run build` emits a fully static site in `dist/` — deploy it to **Vercel, Netlify,
+Cloudflare Pages or GitHub Pages** with no server and no environment variables. Hosts that
+serve `.gz` with `Content-Encoding: gzip` and hosts that serve it as plain binary both work.
 
-If your host serves `.gz` files with `Content-Encoding: gzip`, the browser decompresses them
-automatically. If it serves them as plain binary, the app decompresses them itself. Both
-work.
+## ✦ FAQ
 
----
+<details>
+<summary><b>Why is the first load ~31 MB?</b></summary>
+<br />
+The model is real scan-derived anatomy — 2.29 million triangles — not a stylised mannequin.
+It streams in 15 chunks with a progress bar and is cached by the browser afterwards.
+</details>
 
-## Roadmap
+<details>
+<summary><b>Can I use it for medical decisions?</b></summary>
+<br />
+No. It is a learning tool built on a single adult male reference body. Real anatomy varies
+between people.
+</details>
 
-- Exploded view that spreads the visible pieces apart
-- Browse by region: head & neck, trunk, upper and lower limbs
-- Labels pinned to the model with leader lines
-- Per-layer opacity sliders
-- Fewer draw calls by merging static meshes
-- One static page per system for search engines, plus offline caching (PWA)
+<details>
+<summary><b>Is there a female body?</b></summary>
+<br />
+Not yet. BodyParts3D is a male reference model; a female reference (HuBMAP, CC BY 4.0) is
+noted in <a href="PLAN.md">PLAN.md</a> as a candidate.
+</details>
+
+<details>
+<summary><b>Why no 3D on my machine?</b></summary>
+<br />
+Your browser has WebGL switched off — usually hardware acceleration is disabled. The rest of
+the atlas still works and the page tells you what to change.
+</details>
+
+## ✦ Roadmap
+
+- [x] Whole-body model, system layers, search, selection
+- [x] Organ deep-dives with labelled parts and idle motion
+- [x] Hover labels, preset views, x-ray, quiz, shareable links, PNG export, dark theme
+- [ ] Exploded view that spreads the visible pieces apart
+- [ ] Browse by region — head & neck, trunk, upper and lower limbs
+- [ ] Labels pinned to the model with leader lines
+- [ ] Per-layer opacity sliders
+- [ ] Fewer draw calls by merging static meshes
+- [ ] One static page per system for search engines, offline cache (PWA)
 
 Research notes and earlier milestones are in [PLAN.md](PLAN.md).
 
----
+## ✦ Contributing
 
-## Data, credits & licence
+Issues and pull requests are welcome.
 
-- **Anatomy:** [BodyParts3D 4.0](https://lifesciencedb.jp/bp3d/), © The Database Center for
-  Life Science (DBCLS), licensed **CC BY 4.0**.
-- **Packed browser geometry:** [ashemag/human-atlas](https://github.com/ashemag/human-atlas)
-  (MIT code, CC BY 4.0 data).
-- **Organ models:** [OrganUI](https://github.com/organui) explorers (MIT code). Each model's
-  licence (CC BY 4.0 or CC BY-SA) is listed in `public/organs/ATTRIBUTION.md` and shown in
-  the organ panel.
-- **Fonts:** Newsreader and Inter, via Google Fonts.
+1. Fork the repo and create a branch: `git checkout -b feature/your-idea`
+2. Run `npm run dev` and make your change
+3. Check `npm run build` passes
+4. Open a pull request describing what changed and why
 
-Full attribution is in [`public/ATTRIBUTION.md`](public/ATTRIBUTION.md).
+## ✦ Data & credits
 
+| Source | What | Licence |
+|---|---|---|
+| [BodyParts3D 4.0](https://lifesciencedb.jp/bp3d/) — © DBCLS | Whole-body anatomy | CC BY 4.0 |
+| [ashemag/human-atlas](https://github.com/ashemag/human-atlas) | Packed browser geometry | MIT code · CC BY 4.0 data |
+| [OrganUI](https://github.com/organui) | Organ models | MIT code · CC BY 4.0 / CC BY-SA per model |
+| Google Fonts | Newsreader, Inter | OFL |
+
+Full attribution: [`public/ATTRIBUTION.md`](public/ATTRIBUTION.md) and
+[`public/organs/ATTRIBUTION.md`](public/organs/ATTRIBUTION.md).
+
+> [!IMPORTANT]
 > **Educational use only.** Body Atlas is a learning tool, not a clinical or diagnostic
-> reference. The reference body is a single adult male; real anatomy varies.
+> reference.
+
+<div align="center">
+<br />
+<sub>Made with care by <a href="https://github.com/ImliStack">ImliStack</a></sub>
+</div>
