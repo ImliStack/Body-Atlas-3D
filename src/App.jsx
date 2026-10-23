@@ -3,8 +3,10 @@ import Stage from './scene/Stage.jsx'
 import Sidebar from './ui/Sidebar.jsx'
 import Panel from './ui/Panel.jsx'
 import Icon from './ui/Icon.jsx'
+import Pins from './ui/Pins.jsx'
+import PanelToggles from './ui/PanelToggles.jsx'
 import { useAtlas, search, index } from './store.js'
-import { FEATURED, SYSTEM_BY_ID } from './data.js'
+import { FEATURED, SYSTEM_BY_ID, REGION_BY_ID } from './data.js'
 import { useHashLink } from './links.js'
 import { ORGANS, PICKS } from './organs.js'
 import { MOTION, REDUCED } from './motion.js'
@@ -104,6 +106,10 @@ function Tools() {
   const hasSel = useAtlas((s) => !!s.selection)
   const organMode = useAtlas((s) => s.selection?.kind === 'organ')
   const ready = useAtlas((s) => s.ready)
+  const explode = useAtlas((s) => s.explode)
+  const pinsOn = useAtlas((s) => s.showPins && s.pins.length > 0)
+  const hq = useAtlas((s) => s.hq)
+  const focus = useAtlas((s) => !s.panels.left && !s.panels.right)
   const tool = (icon, tip, onClick, { on = false, disabled = false, key } = {}) => (
     <button className={`tool ${on ? 'is-on' : ''}`} onClick={onClick} disabled={disabled}
       aria-label={tip} aria-pressed={on} data-tip={key ? `${tip} · ${key}` : tip}>
@@ -120,11 +126,34 @@ function Tools() {
       <div className="tool-group">
         {tool('isolate', organMode ? 'Hide the body' : 'Isolate selection', st.toggleIsolate, { on: isolate, disabled: !hasSel, key: 'I' })}
         {tool('xray', 'X-ray', st.toggleXray, { on: xray, disabled: organMode, key: 'X' })}
-        {tool('sun', 'Studio light', st.toggleLight, { on: light === 'contrast', key: 'L' })}
+        {tool('explode', 'Exploded view', st.toggleExplode, { on: explode, disabled: !ready || organMode, key: 'E' })}
+        {tool('tag', 'Pinned labels', st.togglePins, { on: pinsOn, disabled: !ready, key: 'N' })}
       </div>
       <div className="tool-group">
+        {tool('sun', 'Studio light', st.toggleLight, { on: light === 'contrast', key: 'L' })}
+        {tool('hq', hq ? 'Ambient occlusion on' : 'Ambient occlusion off — faster', st.toggleHq, { on: hq, key: 'H' })}
+        {tool('focus', 'Focus mode', () => st.togglePanel('focus'), { on: focus, key: '\\' })}
         {tool('camera', 'Save image', st.takeSnapshot, { disabled: !ready, key: 'P' })}
       </div>
+    </div>
+  )
+}
+
+/** Spread slider, shown while the exploded view is on. */
+function ExplodeBar() {
+  const explode = useAtlas((s) => s.explode)
+  const amount = useAtlas((s) => s.explodeAmount)
+  const multi = useAtlas((s) => (s.selection?.partIds.length ?? 0) > 1)
+  const { setExplodeAmount, fitExplode, toggleExplode } = useAtlas.getState()
+  if (!explode) return null
+  return (
+    <div className="explode-bar">
+      <Icon name="explode" size={16} />
+      <span>{multi ? 'Spread selection' : 'Spread'}</span>
+      <input type="range" min="0.1" max="1" step="0.01" value={amount} aria-label="How far the pieces spread"
+        style={{ '--p': `${((amount - 0.1) / 0.9) * 100}%` }}
+        onChange={(e) => setExplodeAmount(Number(e.target.value))} onPointerUp={fitExplode} onKeyUp={fitExplode} />
+      <button onClick={toggleExplode} aria-label="Put the body back together" title="Assemble (E)"><Icon name="close" size={14} /></button>
     </div>
   )
 }
@@ -155,6 +184,8 @@ function Caption() {
   const focusSystem = useAtlas((s) => s.focusSystem)
   const revealAt = useAtlas((s) => s.revealAt)
   const quiz = useAtlas((s) => s.quiz)
+  const region = useAtlas((s) => s.region)
+  const explode = useAtlas((s) => s.explode)
   let text = 'Turn the body slowly. Every structure is one click away.'
   if (quiz && quiz.state !== 'done') text = quiz.state === 'ask' || quiz.state === 'wrong'
     ? `Find the ${quiz.rounds[quiz.i].title.toLowerCase()}.` : quiz.state === 'right' ? 'Found it.' : 'Here it is.'
@@ -162,6 +193,8 @@ function Caption() {
   else if (selection?.featured) text = selection.featured.caption
   else if (selection) text = 'Drag to look around it · scroll to come closer.'
   else if (focusSystem) text = `${SYSTEM_BY_ID[focusSystem].latin} — one thread through the whole body.`
+  else if (region) text = `${REGION_BY_ID[region].latin} — every system, cut to one region.`
+  else if (explode) text = 'Pulled apart, so every piece can be seen.'
   // The caption lands with the panel's last line, so it never competes with the camera move.
   const delay = REDUCED ? 0 : revealAt + 3 * MOTION.reveal.stagger
   if (quiz) return <p className="caption is-quiz" key={text}>{text}</p>
@@ -233,7 +266,9 @@ class StageBoundary extends Component {
 const SHORTCUTS = [
   ['/', 'Search'], ['Esc', 'Back / clear'], ['F', 'Fit to view'], ['+ −', 'Zoom'],
   ['1 – 4', 'Preset views'], ['R', 'Auto-rotate'], ['I', 'Isolate selection'],
-  ['X', 'X-ray'], ['L', 'Studio light'], ['P', 'Save image'], ['T', 'Light / dark theme'], ['?', 'This sheet'],
+  ['X', 'X-ray'], ['E', 'Exploded view'], ['N', 'Pinned labels'], ['L', 'Studio light'],
+  ['H', 'Ambient occlusion'], ['[  ]', 'Fold side panels'], ['\\', 'Focus mode'],
+  ['P', 'Save image'], ['T', 'Light / dark theme'], ['?', 'This sheet'],
 ]
 
 function HelpSheet() {
@@ -277,6 +312,12 @@ const KEYS = {
   l: (st) => st.toggleLight(),
   p: (st) => st.ready && st.takeSnapshot(),
   t: (st) => st.toggleTheme(),
+  e: (st) => st.ready && st.toggleExplode(),
+  n: (st) => st.ready && st.togglePins(),
+  h: (st) => st.toggleHq(),
+  '[': (st) => st.togglePanel('left'),
+  ']': (st) => st.togglePanel('right'),
+  '\\': (st) => st.togglePanel('focus'),
   '?': (st) => st.setHelp(!st.help),
 }
 
@@ -343,15 +384,19 @@ export default function App() {
   useShortcuts()
   useTheme()
   useHashLink()
+  const panels = useAtlas((s) => s.panels)
   return (
-    <div className="app">
+    <div className={`app ${panels.left ? '' : 'no-left'} ${panels.right ? '' : 'no-right'}`}>
       <Sidebar />
       <main className="stage">
         <StageBoundary><Stage /></StageBoundary>
+        <Pins />
         <QuickPicks />
         <Tools />
+        <PanelToggles />
         <Loader />
         <div className="stage-foot">
+          <ExplodeBar />
           <Turntable />
           <Caption />
         </div>

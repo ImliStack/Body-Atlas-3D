@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useAtlas, index, selectionBounds } from '../store.js'
-import { SYSTEM_BY_ID, regionOf, pretty } from '../data.js'
+import { SYSTEMS, SYSTEM_BY_ID, REGION_BY_ID, regionOf, pretty } from '../data.js'
 import { ORGANS } from '../organs.js'
 import { MOTION, REDUCED } from '../motion.js'
 import Icon from './Icon.jsx'
@@ -57,7 +57,9 @@ function Overview() {
         <ul className="howto">
           <li><b>Drag</b> to orbit · <b>scroll</b> to zoom · <b>right-drag</b> to pan</li>
           <li><b>Click</b> a structure to inspect it</li>
-          <li>Use the <Icon name="eye" size={15} /> toggles to show or hide systems</li>
+          <li>Use the <Icon name="eye" size={15} /> toggles to show or hide systems, or <b>Opacity</b> to fade them</li>
+          <li>Pick a <b>region</b> to study the head, trunk or limbs on their own</li>
+          <li><Icon name="explode" size={15} /> <b>Explode</b> spreads the pieces apart; <Icon name="tag" size={15} /> pins labels</li>
         </ul>
       </section>
     </>
@@ -102,9 +104,65 @@ function SystemView({ id }) {
   )
 }
 
+const REGION_STARTS = {
+  head: ['skull', 'brain', 'mandible', 'left eyeball', 'thyroid gland'],
+  trunk: ['heart', 'right lung', 'liver', 'stomach', 'rib cage', 'right kidney'],
+  upper: ['humerus', 'radius', 'ulna', 'scapula', 'clavicle'],
+  lower: ['femur', 'tibia', 'patella', 'fibula', 'calcaneus'],
+}
+
+function RegionView({ id }) {
+  const r = REGION_BY_ID[id]
+  const ready = useAtlas((s) => s.ready)
+  const { selectConcept, showAll } = useAtlas.getState()
+  const bySystem = useMemo(() => {
+    const c = {}
+    for (const pid of index.regionParts.get(id) ?? []) {
+      const sys = index.parts.get(pid).system
+      c[sys] = (c[sys] ?? 0) + 1
+    }
+    return SYSTEMS.filter((s) => c[s.id]).map((s) => [s, c[s.id]]).sort((a, b) => b[1] - a[1])
+  }, [id, ready])
+  const total = bySystem.reduce((n, [, k]) => n + k, 0)
+  const top = bySystem[0]?.[1] ?? 1
+  const starts = REGION_STARTS[id].filter((n) => index.concepts.has(n))
+  return (
+    <>
+      <div className="eyebrow-row">
+        <div className="eyebrow">{r.latin}</div>
+        <button className="icon-btn ghost" onClick={showAll} aria-label="Back to the whole body" title="Whole body">
+          <Icon name="close" size={17} />
+        </button>
+      </div>
+      <h1 className="title">{r.name}</h1>
+      <div className="tags"><span>Body region</span><span>{total.toLocaleString()} structures</span></div>
+      <p className="lede">{r.blurb}</p>
+      <section className="block">
+        <h2>Start with</h2>
+        <div className="chips">
+          {starts.map((n) => <button key={n} className="chip" onClick={() => selectConcept(n)}>{pretty(n)}</button>)}
+        </div>
+      </section>
+      <section className="block">
+        <h2>By system</h2>
+        <ul className="bars">
+          {bySystem.map(([s, k]) => (
+            <li key={s.id} style={{ '--c': s.color }}>
+              <span className="bar-name">{s.name}</span>
+              <span className="bar-track"><span style={{ transform: `scaleX(${k / top})` }} /></span>
+              <span className="bar-val">{k}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
+  )
+}
+
 function SelectionView({ sel }) {
-  const { selectConcept, clearSelection, toggleIsolate } = useAtlas.getState()
+  const { selectConcept, clearSelection, toggleIsolate, togglePin } = useAtlas.getState()
   const isolate = useAtlas((s) => s.isolate)
+  const pinned = useAtlas((s) => s.pins.some((p) => p.label.toLowerCase() === sel.name.toLowerCase()))
   const system = SYSTEM_BY_ID[sel.system]
   const first = index.parts.get(sel.partIds[0])
   const f = sel.featured
@@ -130,9 +188,15 @@ function SelectionView({ sel }) {
     <>
       <div className="eyebrow-row">
         <div className="eyebrow">{f ? f.latin : system?.name}</div>
-        <button className="icon-btn ghost" onClick={clearSelection} aria-label="Clear selection" title="Clear">
-          <Icon name="close" size={17} />
-        </button>
+        <span className="eyebrow-actions">
+          <button className={`icon-btn ghost ${pinned ? 'is-on' : ''}`} onClick={() => togglePin(sel)} aria-pressed={pinned}
+            aria-label={pinned ? 'Unpin label' : 'Pin a label on the body'} title={pinned ? 'Unpin label' : 'Pin label'}>
+            <Icon name="tag" size={17} />
+          </button>
+          <button className="icon-btn ghost" onClick={clearSelection} aria-label="Clear selection" title="Clear">
+            <Icon name="close" size={17} />
+          </button>
+        </span>
       </div>
       <h1 className={`title ${sel.name.length > 22 ? 'is-long' : ''}`}>{sel.name}</h1>
       <div className="tags">
@@ -291,9 +355,10 @@ export default function Panel() {
   const focusSystem = useAtlas((s) => s.focusSystem)
   const revealAt = useAtlas((s) => s.revealAt)
   const quiz = useAtlas((s) => s.quiz)
+  const region = useAtlas((s) => s.region)
   const key = quiz ? `quiz-${quiz.i}-${quiz.state === 'done'}` : selection
     ? selection.kind === 'organ' ? `organ-${selection.organKey}` : selection.name
-    : focusSystem ?? 'overview'
+    : focusSystem ?? (region ? `region-${region}` : 'overview')
   // Panel lines arrive one by one after the camera has landed (see MOTION.reveal).
   const style = {
     '--reveal-at': `${REDUCED ? 0 : revealAt}s`,
@@ -305,7 +370,8 @@ export default function Panel() {
       {quiz ? <QuizPanel quiz={quiz} />
         : selection?.kind === 'organ' ? <OrganPanel sel={selection} />
         : selection ? <SelectionView sel={selection} />
-        : focusSystem ? <SystemView id={focusSystem} /> : <Overview />}
+        : focusSystem ? <SystemView id={focusSystem} />
+        : region ? <RegionView id={region} /> : <Overview />}
     </aside>
   )
 }

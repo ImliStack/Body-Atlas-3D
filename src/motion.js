@@ -18,6 +18,7 @@ export const MOTION = {
   settle: { smoothTime: 0.7 }, // camera re-frames the detail model after the lift
   reveal: { at: 0.85, stagger: 0.09, duration: 0.5, quick: 0.15 },
   back: { at: 0.32, smoothTime: 0.6 },
+  explode: { rate: 4.5, smoothTime: 0.8 }, // pieces drift apart / back together
   idle: {
     heartbeat: { bpm: 66, amount: 0.03 },
     breath: { perMinute: 14, amount: 0.03 },

@@ -89,12 +89,29 @@ export const QUIZ = [
 // FMA concept names are lower-case ("femur"); show them sentence-cased.
 export const pretty = (name) => name.charAt(0).toUpperCase() + name.slice(1)
 
-export function regionOf(bounds) {
+// The second way in, after systems: the body cut into four regions, like an atlas.
+export const REGIONS = [
+  { id: 'head', name: 'Head & neck', latin: 'Caput et collum', icon: 'head',
+    blurb: 'The skull and the brain it guards, the sense organs of the face, and the neck that carries the airway, the gullet and the great vessels to and from the head.' },
+  { id: 'trunk', name: 'Trunk', latin: 'Truncus', icon: 'trunk',
+    blurb: 'Chest, abdomen and pelvis around the spine: the heart and lungs behind the ribs, the digestive organs below the diaphragm, and the kidneys against the back wall.' },
+  { id: 'upper', name: 'Upper limbs', latin: 'Membra superiora', icon: 'arm',
+    blurb: 'Shoulder, arm, forearm and hand — a long chain of joints built for reach and fine grip, with the muscles, vessels and nerves that run its length.' },
+  { id: 'lower', name: 'Lower limbs', latin: 'Membra inferiora', icon: 'leg',
+    blurb: 'Hip to toes: the body’s largest bones and strongest muscles, made to carry the whole weight of the body and move it.' },
+]
+export const REGION_BY_ID = Object.fromEntries(REGIONS.map((r) => [r.id, r]))
+
+/** Region of a structure from the centre of its bounds (metres, feet at y = 0, facing +z). */
+export function regionIdOf(bounds) {
   const [min, max] = bounds
   const cx = (min[0] + max[0]) / 2
   const cy = (min[1] + max[1]) / 2
-  if (cy > 1.42) return 'Head & neck'
-  if (cy < 0.86) return 'Lower limb'
-  if (Math.abs(cx) > 0.17) return 'Upper limb'
-  return 'Trunk'
+  if (cy > 1.42) return 'head'
+  // Arms hang at the sides, so the hands sit lower than the hips: test width first.
+  if (Math.abs(cx) > 0.17 && cy > 0.55) return 'upper'
+  if (cy < 0.86) return 'lower'
+  return 'trunk'
 }
+
+export const regionOf = (bounds) => REGION_BY_ID[regionIdOf(bounds)].name

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { DEFAULT_VISIBLE, FEATURED, QUIZ, pretty } from './data.js'
+import { DEFAULT_VISIBLE, FEATURED, QUIZ, pretty, regionIdOf } from './data.js'
 import { ORGANS } from './organs.js'
 import { MOTION, ms } from './motion.js'
 import { fx, press, clear } from './scene/fx.js'
@@ -11,6 +11,8 @@ export const index = {
   concepts: new Map(), // lower-case name -> concept
   partConcepts: new Map(), // partId -> concepts containing it, smallest first
   partOrgan: new Map(), // partId -> organ key with a detail model
+  partRegion: new Map(), // partId -> 'head' | 'trunk' | 'upper' | 'lower'
+  regionParts: new Map(), // region id -> partIds
   searchList: [], // { label, kind, key, size }
 }
 
@@ -25,7 +27,13 @@ export const organOfPart = (id) => index.partOrgan.get(id)
 
 export function buildIndex(atlas) {
   if (index.parts.size) return
-  for (const p of atlas.parts) index.parts.set(p.id, p)
+  for (const p of atlas.parts) {
+    index.parts.set(p.id, p)
+    const r = regionIdOf(p.bounds)
+    index.partRegion.set(p.id, r)
+    if (!index.regionParts.has(r)) index.regionParts.set(r, [])
+    index.regionParts.get(r).push(p.id)
+  }
   for (const c of atlas.concepts) {
     index.concepts.set(c.name.toLowerCase(), c)
     for (const el of c.elements) {
@@ -65,7 +73,7 @@ export function search(query, limit = 8) {
   return hits.slice(0, limit).map((h) => h[2])
 }
 
-function partsOfConcepts(names) {
+export function partsOfConcepts(names) {
   const ids = new Set()
   for (const n of names) {
     const c = index.concepts.get(n.toLowerCase())
@@ -81,6 +89,35 @@ const shuffle = (list) => {
     ;[a[i], a[j]] = [a[j], a[i]]
   }
   return a
+}
+
+/** Read a JSON preference; private windows and blocked storage fall back to the default. */
+function stored(key, fallback, ok = () => true) {
+  try {
+    const v = JSON.parse(localStorage.getItem(key))
+    if (v != null && ok(v)) return v
+  } catch {}
+  return fallback
+}
+function keep(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)) } catch {}
+}
+
+// Labels pinned the first time the label tool is switched on with nothing pinned yet.
+const DEFAULT_PINS = ['skull', 'heart', 'right lung', 'liver', 'stomach', 'right kidney', 'urinary bladder', 'femur']
+  .map((name) => ({ key: `concept:${name}`, kind: 'concept', ref: name, label: pretty(name) }))
+
+/** Parts a pinned label points at. */
+export function pinParts(pin) {
+  if (pin.kind === 'part') return index.parts.has(pin.ref) ? [pin.ref] : []
+  if (pin.kind === 'featured') return partsOfConcepts(FEATURED.find((f) => f.key === pin.ref)?.concepts ?? [])
+  return partsOfConcepts([pin.ref])
+}
+
+function pinOf(sel) {
+  if (sel.kind === 'part') return { key: `part:${sel.partIds[0]}`, kind: 'part', ref: sel.partIds[0], label: sel.name }
+  if (sel.kind === 'featured') return { key: `featured:${sel.featured.key}`, kind: 'featured', ref: sel.featured.key, label: sel.name }
+  return { key: `concept:${sel.name.toLowerCase()}`, kind: 'concept', ref: sel.name.toLowerCase(), label: sel.name }
 }
 
 function storedTheme() {
@@ -121,6 +158,18 @@ export const useAtlas = create((set, get) => ({
   organError: null,
   revealAt: MOTION.reveal.quick, // when the panel text starts arriving (s)
   isolate: false,
+  // Body region filter: null or 'head' | 'trunk' | 'upper' | 'lower'
+  region: null,
+  explode: false,
+  explodeAmount: 0.6,
+  pins: stored('atlas-pins', [], Array.isArray),
+  showPins: true,
+  layerOpacity: {}, // systemId -> 0..1, missing = 1
+  opacityOpen: false,
+  // Side panels: folded or open, remembered per browser.
+  panels: stored('atlas-panels', { left: true, right: true }, (v) => typeof v.left === 'boolean'),
+  // Ambient occlusion; off by default on phones.
+  hq: stored('atlas-hq', typeof matchMedia === 'undefined' || !matchMedia('(pointer: coarse)').matches),
   autoRotate: true,
   light: 'soft',
   xray: false,
@@ -145,9 +194,10 @@ export const useAtlas = create((set, get) => ({
     const organ = ORGANS[key]
     const partIds = partsOfConcepts(organ.concepts)
     if (!partIds.length) return
+    fx.explodeTarget = 0
     loadOrgan(key).catch(() => set({ organError: `The ${organ.title.toLowerCase()} model couldn’t load.` }))
     focusOn(set, get, { kind: 'organ', organKey: key, name: organ.title, partIds, system: organ.system },
-      { organPhase: 'enter', organError: null, isolate: false, autoRotate: false })
+      { organPhase: 'enter', organError: null, isolate: false, autoRotate: false, explode: false })
     schedule([
       [MOTION.fly.at, () => get().cameraCommand('selection')],
       [MOTION.lift.at, () => {
@@ -172,15 +222,21 @@ export const useAtlas = create((set, get) => ({
     set((s) => {
       const visible = new Set(s.visible)
       visible.add(id)
-      return { visible, focusSystem: id, selection: null, organPhase: null, structureId: null, isolate: false, quiz: null,
+      return { visible, focusSystem: id, region: null, selection: null, organPhase: null, structureId: null, isolate: false, quiz: null,
         revealAt: MOTION.reveal.quick, camera: { type: 'home', n: s.camera.n + 1 } }
     })
   },
 
   showAll: () => {
     release()
-    set((s) => ({ visible: new Set(DEFAULT_VISIBLE), focusSystem: null, selection: null, organPhase: null,
+    set((s) => ({ visible: new Set(DEFAULT_VISIBLE), focusSystem: null, region: null, selection: null, organPhase: null,
       structureId: null, isolate: false, quiz: null, revealAt: MOTION.reveal.quick, camera: { type: 'home', n: s.camera.n + 1 } }))
+  },
+
+  showRegion: (id) => {
+    release()
+    set((s) => ({ region: s.region === id ? null : id, focusSystem: null, selection: null, organPhase: null, structureId: null,
+      isolate: false, quiz: null, revealAt: MOTION.reveal.quick, camera: { type: 'home', n: s.camera.n + 1 } }))
   },
 
   selectPart: (id) => {
@@ -219,6 +275,66 @@ export const useAtlas = create((set, get) => ({
     set((st) => ({ selection: null, organPhase: null, structureId: null, isolate: false,
       revealAt: MOTION.reveal.quick, camera: { type: 'home', n: st.camera.n + 1 } }))
   },
+
+  toggleExplode: () => {
+    const s = get()
+    if (s.selection?.kind === 'organ') return
+    const explode = !s.explode
+    fx.explodeTarget = explode ? s.explodeAmount : 0
+    set({ explode, autoRotate: false })
+    get().cameraCommand(s.selection ? 'selection' : 'home')
+  },
+  setExplodeAmount: (explodeAmount) => {
+    if (get().explode) fx.explodeTarget = explodeAmount
+    set({ explodeAmount })
+  },
+  /** Re-frame after the spread slider is let go. */
+  fitExplode: () => get().cameraCommand(get().selection ? 'selection' : 'home'),
+
+  togglePin: (sel = get().selection) => {
+    if (!sel || sel.kind === 'organ') return
+    const pin = pinOf(sel)
+    set((s) => {
+      const pins = s.pins.some((p) => p.key === pin.key) ? s.pins.filter((p) => p.key !== pin.key) : [...s.pins, pin]
+      keep('atlas-pins', pins)
+      return { pins, showPins: true }
+    })
+  },
+  removePin: (key) => set((s) => {
+    const pins = s.pins.filter((p) => p.key !== key)
+    keep('atlas-pins', pins)
+    return { pins }
+  }),
+  clearPins: () => {
+    keep('atlas-pins', [])
+    set({ pins: [] })
+  },
+  /** The label tool: shows or hides pins; with none pinned it starts from a set of landmarks. */
+  togglePins: () => set((s) => {
+    if (!s.pins.length) {
+      keep('atlas-pins', DEFAULT_PINS)
+      return { pins: DEFAULT_PINS, showPins: true }
+    }
+    return { showPins: !s.showPins }
+  }),
+
+  setOpacity: (id, v) => set((s) => ({ layerOpacity: { ...s.layerOpacity, [id]: v } })),
+  resetOpacity: () => set({ layerOpacity: {} }),
+  toggleOpacityOpen: () => set((s) => ({ opacityOpen: !s.opacityOpen })),
+
+  togglePanel: (side) => set((s) => {
+    const panels = side === 'focus'
+      ? (s.panels.left || s.panels.right ? { left: false, right: false } : { left: true, right: true })
+      : { ...s.panels, [side]: !s.panels[side] }
+    keep('atlas-panels', panels)
+    // Re-frame once the columns have finished sliding (.28s in styles.css).
+    setTimeout(() => get().cameraCommand(get().selection ? 'selection' : 'home'), 320)
+    return { panels }
+  }),
+  toggleHq: () => set((s) => {
+    keep('atlas-hq', !s.hq)
+    return { hq: !s.hq }
+  }),
 
   toggleIsolate: () => set((s) => ({ isolate: s.selection ? !s.isolate : false })),
   toggleAutoRotate: () => set((s) => ({ autoRotate: !s.autoRotate })),
@@ -279,6 +395,8 @@ export const useAtlas = create((set, get) => ({
   },
 }))
 
+export const regionBounds = (id) => selectionBounds(index.regionParts.get(id) ?? [])
+
 export function selectionBounds(partIds) {
   const min = [Infinity, Infinity, Infinity]
   const max = [-Infinity, -Infinity, -Infinity]
@@ -292,3 +410,6 @@ export function selectionBounds(partIds) {
   }
   return [min, max]
 }
+
+// Handle for the README screenshot and demo scripts (scripts/readme-*.sh).
+if (typeof window !== 'undefined') window.__atlas = useAtlas

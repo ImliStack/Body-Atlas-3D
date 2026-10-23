@@ -83,11 +83,14 @@ pages (one static page per system, like the reference site).
 4. ✅ UI pass after reviewing BioDigital Human, Zygote Body, Complete Anatomy, Visible Body and
    human-atlas: hover labels, BVH picking, preset views, x-ray, quiz mode, shareable URLs,
    PNG export, dark theme, shortcut sheet, WebGL fallback, mobile search on top
-5. Exploded view, region axis (head / trunk / limbs), pinned labels with leader lines,
-   per-layer opacity sliders, merged draw calls
+5. ✅ Exploded view (whole body or a selected group), region axis (head / trunk / limbs),
+   pinned labels with leader lines, per-layer opacity sliders, one BatchedMesh per system
+   (~1,830 → ~14 draw calls); SunPlot-style fold-away panels + focus mode, collapsible sidebar
+   groups, N8AO ambient occlusion toggle
 8. Female reference body from HuBMAP Female Reference Organs v1.5 (CC BY 4.0), with a
    male / female switcher
-6. Static SEO pages per system (Astro), PWA offline cache
+6. ✅ Static SEO pages per system and region (Vite build plugin, no Astro needed), sitemap,
+   service-worker offline cache, installable manifest; Cloudflare `wrangler.jsonc`
 7. Mobile layout + performance pass (BVH, LOD, merged draw calls)
 
 ## Attribution

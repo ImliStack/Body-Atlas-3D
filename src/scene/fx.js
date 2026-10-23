@@ -8,6 +8,8 @@ export const fx = {
   flash: MOTION.press.settle, // emissive intensity of the selection
   glow: 1, // opacity of the selection; drops to 0 when the detail model takes over
   glowTarget: 1,
+  explode: 0, // exploded-view spread, 0 = assembled
+  explodeTarget: 0,
 }
 
 /** The click registers: the selection flashes, then settles. */
@@ -26,4 +28,6 @@ export function stepValues(dt) {
   fx.ghost = damp(fx.ghost, fx.ghostTarget, MOTION.clear.rate, dt)
   fx.flash = damp(fx.flash, MOTION.press.settle, MOTION.press.rate, dt)
   fx.glow = damp(fx.glow, fx.glowTarget, MOTION.lift.dissolveRate, dt)
+  fx.explode = damp(fx.explode, fx.explodeTarget, MOTION.explode.rate, dt)
+  if (Math.abs(fx.explode - fx.explodeTarget) < 1e-3) fx.explode = fx.explodeTarget
 }

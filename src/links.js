@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useAtlas, index } from './store.js'
-import { SYSTEM_BY_ID, FEATURED } from './data.js'
+import { SYSTEM_BY_ID, REGION_BY_ID, FEATURED } from './data.js'
 import { ORGANS } from './organs.js'
 
 // The URL hash mirrors what is on screen, so any view can be shared or bookmarked:
-//   #organ/heart · #featured/skull · #concept/left%20femur · #part/FJ1252 · #system/venous
+//   #organ/heart · #featured/skull · #concept/left%20femur · #part/FJ1252 · #system/venous · #region/head
 
 /** Hash for the current state; '' for the whole-body overview. */
 function hashOf(s) {
@@ -15,6 +15,7 @@ function hashOf(s) {
   if (sel?.kind === 'concept') return `#concept/${encodeURIComponent(sel.name.toLowerCase())}`
   if (sel?.kind === 'part') return `#part/${sel.partIds[0]}`
   if (s.focusSystem) return `#system/${s.focusSystem}`
+  if (s.region) return `#region/${s.region}`
   return ''
 }
 
@@ -29,7 +30,8 @@ function openHash(hash) {
   else if (kind === 'concept' && index.concepts.has(key)) st.selectConcept(key)
   else if (kind === 'part' && index.parts.has(key)) st.selectPart(key)
   else if (kind === 'system' && SYSTEM_BY_ID[key]) st.showSystem(key)
-  else if (st.selection || st.focusSystem) st.showAll()
+  else if (kind === 'region' && REGION_BY_ID[key]) st.region !== key && st.showRegion(key)
+  else if (st.selection || st.focusSystem || st.region) st.showAll()
 }
 
 export function useHashLink() {
@@ -40,7 +42,7 @@ export function useHashLink() {
     if (location.hash) openHash(location.hash)
     // Keep the address bar in step without adding a history entry per click.
     const unsubscribe = useAtlas.subscribe((s, prev) => {
-      if (s.selection === prev.selection && s.focusSystem === prev.focusSystem && s.quiz === prev.quiz) return
+      if (s.selection === prev.selection && s.focusSystem === prev.focusSystem && s.region === prev.region && s.quiz === prev.quiz) return
       const hash = hashOf(s)
       if (hash !== location.hash) history.replaceState(null, '', hash || location.pathname + location.search)
     })

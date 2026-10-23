@@ -1,13 +1,19 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { Suspense, lazy, useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import * as THREE from 'three'
-import { useAtlas, buildIndex, selectionBounds, organOfPart } from '../store.js'
-import { root, loadModel, applyState, stepFx, buildBoundsTrees, LAYER } from './meshes.js'
+import { useAtlas, buildIndex, organOfPart, index, pinParts } from '../store.js'
+import {
+  root, batchRoot, loadModel, applyState, stepFx, buildBoundsTrees, setLayerOpacity, setExplodeScope,
+  explodedBounds, homeBox, partCentre, anyShown, LAYER,
+} from './meshes.js'
+import { fx } from './fx.js'
 import { MOTION, REDUCED } from '../motion.js'
 import OrganDetail from './OrganDetail.jsx'
 
-const BODY_BOX = new THREE.Box3(new THREE.Vector3(-0.32, 0, -0.18), new THREE.Vector3(0.32, 1.76, 0.18))
+// Post effects (ambient occlusion) load only when high quality is on.
+const Effects = lazy(() => import('./Effects.jsx'))
+
 // Leave room for the quick picks above and the 360° control + caption below.
 const HOME_PADDING = { paddingTop: 0.16, paddingBottom: 0.42, paddingLeft: 0.1, paddingRight: 0.1 }
 
@@ -17,6 +23,8 @@ function Body() {
   const selection = useAtlas((s) => s.selection)
   const isolate = useAtlas((s) => s.isolate)
   const xray = useAtlas((s) => s.xray)
+  const region = useAtlas((s) => s.region)
+  const layerOpacity = useAtlas((s) => s.layerOpacity)
   const invalidate = useThree((s) => s.invalidate)
 
   useEffect(() => {
@@ -43,9 +51,13 @@ function Body() {
   }, [])
 
   useEffect(() => {
-    applyState({ visible, selection, isolate, xray })
+    setLayerOpacity(layerOpacity)
+    const inRegion = region ? (id) => index.partRegion.get(id) === region : null
+    applyState({ visible, selection, isolate, xray, inRegion })
+    // A selection of several pieces spreads on its own; otherwise the whole body does.
+    setExplodeScope(selection && selection.kind !== 'organ' ? selection.partIds : null)
     invalidate()
-  }, [sceneVersion, visible, selection, isolate, xray, invalidate])
+  }, [sceneVersion, visible, selection, isolate, xray, region, layerOpacity, invalidate])
 
   useFrame((_, dt) => stepFx(dt))
 
@@ -78,12 +90,17 @@ function Body() {
     useAtlas.getState().hover && useAtlas.getState().setHover(null)
   }
 
-  return <primitive object={root} onClick={onClick} onPointerMove={onPointerMove} onPointerOut={onPointerOut} />
+  return (
+    <>
+      <primitive object={batchRoot} />
+      <primitive object={root} onClick={onClick} onPointerMove={onPointerMove} onPointerOut={onPointerOut} />
+    </>
+  )
 }
 
 /** Faded "ghost" layers sit in front of the selection; prefer solid structures. */
 function pickHit(e) {
-  const hits = e.intersections.filter((i) => i.object.visible && i.object.userData.partId)
+  const hits = e.intersections.filter((i) => i.object.userData.shown && i.object.userData.partId)
   return hits.find((i) => !i.object.userData.ghost) ?? hits[0]
 }
 
@@ -141,6 +158,8 @@ function Lights() {
   )
 }
 
+const boundsOf = (id) => index.parts.get(id)?.bounds
+
 /** Frame a box with room for the picks above and the turntable + caption below. */
 function fitPadded(c, [min, max], animate, k = 1) {
   const box = new THREE.Box3(new THREE.Vector3(...min), new THREE.Vector3(...max))
@@ -160,17 +179,20 @@ const SMOOTH = {
   box: MOTION.settle.smoothTime,
 }
 
+const toBox3 = ([min, max]) => new THREE.Box3(new THREE.Vector3(...min), new THREE.Vector3(...max))
+
 function Rig() {
   const ref = useRef()
   const camera = useAtlas((s) => s.camera)
   const autoRotate = useAtlas((s) => s.autoRotate)
   const selection = useAtlas((s) => s.selection)
+  const region = useAtlas((s) => s.region)
   const threeCamera = useThree((s) => s.camera)
 
   useEffect(() => {
     threeCamera.layers.enable(LAYER.context)
     ref.current?.setLookAt(1.1, 1.25, 2.9, 0, 0.88, 0, false)
-    ref.current?.fitToBox(BODY_BOX, false, HOME_PADDING)
+    ref.current?.fitToBox(toBox3(homeBox(0)), false, HOME_PADDING)
   }, [threeCamera])
 
   useEffect(() => {
@@ -178,9 +200,12 @@ function Rig() {
     if (!c || camera.n === 0) return
     const { type } = camera
     const animate = !REDUCED
-    c.smoothTime = SMOOTH[type] ?? 0.35
-    if (type === 'home') c.fitToBox(BODY_BOX, animate, HOME_PADDING)
-    else if (type === 'selection' && selection) fitPadded(c, selectionBounds(selection.partIds), animate)
+    c.smoothTime = fx.explodeTarget !== fx.explode ? MOTION.explode.smoothTime : SMOOTH[type] ?? 0.35
+    const e = fx.explodeTarget
+    // A region is framed like a selection; the whole body grows its box with the spread.
+    if (type === 'home' && region) fitPadded(c, explodedBounds(index.regionParts.get(region) ?? [], boundsOf, e), animate, 0.8)
+    else if (type === 'home') c.fitToBox(toBox3(homeBox(e)), animate, HOME_PADDING)
+    else if (type === 'selection' && selection) fitPadded(c, explodedBounds(selection.partIds, boundsOf, e), animate)
     // The lifted-out organ is the subject now, so frame it tighter than a body selection.
     else if (type === 'box' && camera.box) fitPadded(c, camera.box, animate, 0.5)
     else if (type === 'zoomIn') c.dolly(0.35, animate)
@@ -207,7 +232,65 @@ function Rig() {
   )
 }
 
+/**
+ * Moves the pinned-label DOM (see ui/Pins.jsx) every frame: each label sits out to the side of
+ * its structure with a leader line back to it. Labels on one side are stacked so they never overlap.
+ */
+function PinProjector() {
+  const pins = useAtlas((s) => s.pins)
+  const showPins = useAtlas((s) => s.showPins)
+  const ready = useAtlas((s) => s.ready)
+  const { camera, size } = useThree()
+  const parts = useMemo(() => (ready ? pins.map((p) => [p, pinParts(p)]) : []), [pins, ready])
+  const v = useMemo(() => new THREE.Vector3(), [])
+  const c = useMemo(() => new THREE.Vector3(), [])
+  useFrame(() => {
+    const placed = []
+    for (const [pin, ids] of parts) {
+      const el = document.getElementById(`pin-${pin.key}`)
+      const line = document.getElementById(`pin-line-${pin.key}`)
+      if (!el || !line) continue
+      let n = 0
+      v.set(0, 0, 0)
+      for (const id of ids) if (partCentre(id, c)) { v.add(c); n++ }
+      if (!n) continue
+      v.divideScalar(n).project(camera)
+      const hidden = !showPins || !anyShown(ids) || v.z > 1 || Math.abs(v.x) > 1.1 || Math.abs(v.y) > 1.1
+      const x = ((v.x + 1) / 2) * size.width
+      const y = ((1 - v.y) / 2) * size.height
+      const side = x < size.width / 2 ? -1 : 1
+      // Keep clear of the quick picks above and the turntable + caption below.
+      placed.push({ el, line, hidden, x, y, side, ly: Math.min(Math.max(y - 18, 84), size.height - 150) })
+    }
+    // Same-side labels keep at least 30 px between them, top to bottom.
+    for (const side of [-1, 1]) {
+      const list = placed.filter((p) => p.side === side && !p.hidden).sort((a, b) => a.ly - b.ly)
+      for (let i = 1; i < list.length; i++) list[i].ly = Math.max(list[i].ly, list[i - 1].ly + 30)
+      // If the stack runs into the bottom band, push it back up.
+      for (let i = list.length - 1, floor = size.height - 150; i >= 0; i--, floor -= 30) list[i].ly = Math.min(list[i].ly, floor)
+    }
+    for (const p of placed) {
+      const lx = p.x + p.side * Math.max(70, Math.abs(p.ly - p.y) * 0.6 + 50)
+      p.el.style.opacity = p.line.style.opacity = p.hidden ? '0' : '1'
+      p.el.style.pointerEvents = p.hidden ? 'none' : ''
+      p.el.style.transform = `translate(${lx}px, ${p.ly}px) translate(${p.side < 0 ? '-100%' : '0'}, -50%)`
+      p.line.setAttribute('points', `${p.x},${p.y} ${lx - p.side * 14},${p.ly} ${lx},${p.ly}`)
+    }
+  })
+  return null
+}
+
+/** Draw calls of the last frame, for the README benchmark (`window.__drawCalls()`). */
+function DrawStats() {
+  const gl = useThree((s) => s.gl)
+  useEffect(() => {
+    window.__drawCalls = () => gl.info.render.calls
+  }, [gl])
+  return null
+}
+
 export default function Stage() {
+  const hq = useAtlas((s) => s.hq)
   return (
     <Canvas
       className="stage-canvas"
@@ -220,6 +303,9 @@ export default function Stage() {
       <OrganDetail />
       <FloorShadow />
       <Rig />
+      <PinProjector />
+      <Suspense fallback={null}>{hq && <Effects />}</Suspense>
+      <DrawStats />
       <Snapshot />
     </Canvas>
   )
