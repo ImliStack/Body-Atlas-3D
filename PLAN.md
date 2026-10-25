@@ -87,8 +87,9 @@ pages (one static page per system, like the reference site).
    pinned labels with leader lines, per-layer opacity sliders, one BatchedMesh per system
    (~1,830 → ~14 draw calls); SunPlot-style fold-away panels + focus mode, collapsible sidebar
    groups, N8AO ambient occlusion toggle
-8. Female reference body from HuBMAP Female Reference Organs v1.5 (CC BY 4.0), with a
-   male / female switcher
+8. ✅ Female reference body from HuBMAP Female Reference Organs v1.5 (CC BY 4.0), with a
+   male / female switcher; skull, ribcage, arms, feet, muscles, vessels, nerves and glands fitted
+   from BodyParts3D by bone-weighted skinning (`scripts/build-female-skeleton.mjs`)
 6. ✅ Static SEO pages per system and region (Vite build plugin, no Astro needed), sitemap,
    service-worker offline cache, installable manifest; Cloudflare `wrangler.jsonc`
 7. Mobile layout + performance pass (BVH, LOD, merged draw calls)

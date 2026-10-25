@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { DEFAULT_VISIBLE, FEATURED, QUIZ, pretty, regionIdOf } from './data.js'
+import { DEFAULT_VISIBLE, FEATURED, QUIZ, SYSTEM_BY_ID, pretty, regionIdOf } from './data.js'
+import { BODIES, initialBody } from './bodies.js'
 import { ORGANS } from './organs.js'
 import { MOTION, ms } from './motion.js'
 import { fx, press, clear } from './scene/fx.js'
@@ -14,7 +15,20 @@ export const index = {
   partRegion: new Map(), // partId -> 'head' | 'trunk' | 'upper' | 'lower'
   regionParts: new Map(), // region id -> partIds
   searchList: [], // { label, kind, key, size }
+  aliases: {}, // feature-list name -> concept names in this body (see bodies.js)
+  meta: null, // { parts, concepts, triangles, systems, height } of the loaded atlas
 }
+
+/** Forget the loaded body, before another one is read in. */
+export function resetIndex() {
+  for (const v of Object.values(index)) if (v instanceof Map) v.clear()
+  index.searchList.length = 0
+  index.aliases = {}
+  index.meta = null
+}
+
+/** A system's description, as it applies to the body on screen. */
+export const systemBlurb = (id, body = useAtlas.getState().body) => BODIES[body].blurbs[id] ?? SYSTEM_BY_ID[id]?.blurb
 
 // Timeline steps for the current interaction; a new interaction cancels the old one.
 let timers = []
@@ -25,11 +39,18 @@ function schedule(steps) {
 
 export const organOfPart = (id) => index.partOrgan.get(id)
 
-export function buildIndex(atlas) {
+export function buildIndex(atlas, body) {
   if (index.parts.size) return
+  index.aliases = BODIES[body].aliases
+  let height = 0
+  for (const p of atlas.parts) height = Math.max(height, p.bounds[1][1])
+  index.meta = {
+    parts: atlas.parts.length, concepts: atlas.concepts.length, triangles: atlas.triangles,
+    systems: new Set(atlas.parts.map((p) => p.system)).size, height,
+  }
   for (const p of atlas.parts) {
     index.parts.set(p.id, p)
-    const r = regionIdOf(p.bounds)
+    const r = regionIdOf(p.bounds, height, p.name)
     index.partRegion.set(p.id, r)
     if (!index.regionParts.has(r)) index.regionParts.set(r, [])
     index.regionParts.get(r).push(p.id)
@@ -76,8 +97,11 @@ export function search(query, limit = 8) {
 export function partsOfConcepts(names) {
   const ids = new Set()
   for (const n of names) {
-    const c = index.concepts.get(n.toLowerCase())
-    if (c) for (const e of c.elements) if (index.parts.has(e)) ids.add(e)
+    const key = n.toLowerCase()
+    for (const name of [key, ...(index.aliases[key] ?? [])]) {
+      const c = index.concepts.get(name)
+      if (c) for (const e of c.elements) if (index.parts.has(e)) ids.add(e)
+    }
   }
   return [...ids]
 }
@@ -114,7 +138,8 @@ export function pinParts(pin) {
   return partsOfConcepts([pin.ref])
 }
 
-function pinOf(sel) {
+/** The pin a selection would make (its key tells whether it is already pinned). */
+export function pinOf(sel) {
   if (sel.kind === 'part') return { key: `part:${sel.partIds[0]}`, kind: 'part', ref: sel.partIds[0], label: sel.name }
   if (sel.kind === 'featured') return { key: `featured:${sel.featured.key}`, kind: 'featured', ref: sel.featured.key, label: sel.name }
   return { key: `concept:${sel.name.toLowerCase()}`, kind: 'concept', ref: sel.name.toLowerCase(), label: sel.name }
@@ -147,6 +172,7 @@ export const useAtlas = create((set, get) => ({
   progress: 0,
   error: null,
   ready: false,
+  body: initialBody(), // 'male' | 'female', see bodies.js
 
   visible: new Set(DEFAULT_VISIBLE),
   focusSystem: null,
@@ -187,6 +213,25 @@ export const useAtlas = create((set, get) => ({
   setReady: () => set({ status: 'ready', ready: true }),
   setError: (error) => set({ status: 'error', error }),
   bumpScene: () => set((s) => ({ sceneVersion: s.sceneVersion + 1 })),
+
+  /** Swap the reference body. The scene reloads it (Stage.jsx); everything tied to the old one is cleared. */
+  setBody: (body) => {
+    if (!BODIES[body] || body === get().body) return
+    release()
+    fx.explodeTarget = 0
+    keep('atlas-body', body)
+    try {
+      const url = new URL(location.href)
+      body === 'male' ? url.searchParams.delete('body') : url.searchParams.set('body', body)
+      history.replaceState(null, '', url.pathname + url.search)
+    } catch {}
+    set((s) => ({
+      body, status: 'loading', ready: false, progress: 0, error: null,
+      visible: new Set(DEFAULT_VISIBLE), focusSystem: null, region: null, selection: null, organPhase: null, structureId: null,
+      organError: null, isolate: false, explode: false, quiz: null, hover: null, layerOpacity: {},
+      revealAt: MOTION.reveal.quick, camera: { type: 'home', n: s.camera.n + 1 },
+    }))
+  },
 
   cameraCommand: (type, box) => set((s) => ({ camera: { type, box, n: s.camera.n + 1 } })),
 
@@ -250,7 +295,7 @@ export const useAtlas = create((set, get) => ({
     if (!partIds.length) return
     const c = index.concepts.get(name.toLowerCase())
     const system = index.parts.get(partIds[0]).system
-    focusOn(set, get, { kind: 'concept', name: pretty(c.name), partIds, system })
+    focusOn(set, get, { kind: 'concept', name: pretty(c?.name ?? name), partIds, system })
   },
 
   selectFeatured: (key) => {
@@ -278,7 +323,7 @@ export const useAtlas = create((set, get) => ({
 
   toggleExplode: () => {
     const s = get()
-    if (s.selection?.kind === 'organ') return
+    if (s.selection?.kind === 'organ' || s.quiz) return
     const explode = !s.explode
     fx.explodeTarget = explode ? s.explodeAmount : 0
     set({ explode, autoRotate: false })
@@ -305,12 +350,9 @@ export const useAtlas = create((set, get) => ({
     keep('atlas-pins', pins)
     return { pins }
   }),
-  clearPins: () => {
-    keep('atlas-pins', [])
-    set({ pins: [] })
-  },
   /** The label tool: shows or hides pins; with none pinned it starts from a set of landmarks. */
   togglePins: () => set((s) => {
+    if (s.quiz) return {}
     if (!s.pins.length) {
       keep('atlas-pins', DEFAULT_PINS)
       return { pins: DEFAULT_PINS, showPins: true }
@@ -357,7 +399,9 @@ export const useAtlas = create((set, get) => ({
     const rounds = shuffle(QUIZ.filter((q) => partsOfConcepts(q.concepts).length)).slice(0, 8)
     get().showAll()
     get().view('front')
-    set({ quiz: { rounds, i: 0, score: 0, misses: 0, state: 'ask', picked: null }, autoRotate: false, hover: null })
+    // Rounds are asked on the assembled body: a spread-out body would make the answers far too easy.
+    fx.explodeTarget = 0
+    set({ quiz: { rounds, i: 0, score: 0, misses: 0, state: 'ask', picked: null }, autoRotate: false, hover: null, explode: false })
   },
 
   /** A body click while the quiz runs: right if it lands on the asked structure. */
@@ -394,8 +438,6 @@ export const useAtlas = create((set, get) => ({
     set((s) => ({ quiz: null, selection: null, isolate: false, camera: { type: 'home', n: s.camera.n + 1 } }))
   },
 }))
-
-export const regionBounds = (id) => selectionBounds(index.regionParts.get(id) ?? [])
 
 export function selectionBounds(partIds) {
   const min = [Infinity, Infinity, Infinity]

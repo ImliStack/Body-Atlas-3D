@@ -12,14 +12,14 @@ A="window.__atlas.getState()"
 
 # prefs <theme> [left panel] [right panel] [pins json]
 prefs() {
-  b js "localStorage.setItem('atlas-theme','$1'); localStorage.setItem('atlas-panels', JSON.stringify({left:${2:-true},right:${3:-true}})); localStorage.setItem('atlas-pins', '${4:-[]}'); localStorage.setItem('atlas-hq','true'); localStorage.removeItem('atlas-folds'); 'ok'" >/dev/null
+  b js "localStorage.setItem('atlas-theme','$1'); localStorage.setItem('atlas-panels', JSON.stringify({left:${2:-true},right:${3:-true}})); localStorage.setItem('atlas-pins', '${4:-[]}'); localStorage.setItem('atlas-hq','true'); localStorage.removeItem('atlas-folds'); localStorage.setItem('atlas-body', '\"male\"'); 'ok'" >/dev/null
 }
 
 # shot <name> <hash> <seconds to settle> [js…]
 shot() {
   local name=$1 url=$2 wait=$3; shift 3
   n=$((n+1))
-  b js "localStorage.setItem('atlas-pins','[]'); 'ok'" >/dev/null
+  b js "localStorage.setItem('atlas-pins','[]'); localStorage.setItem('atlas-body', '\"male\"'); 'ok'" >/dev/null
   b goto "http://localhost:5180/?s=$n$url" >/dev/null 2>&1 || { sleep 2; b goto "http://localhost:5180/?s=$n$url" >/dev/null; }
   for i in $(seq 1 30); do sleep 1; r=$(b js "!document.querySelector('.search input').disabled" 2>/dev/null | tail -1); [ "$r" = "true" ] && break; done
   sleep 1
@@ -42,6 +42,8 @@ shot region-upper "#region/upper" 3 "$front" "$A.toggleSystem('muscular'); 'x'"
 shot opacity "" 3 "$front" "$A.toggleOpacityOpen(); $A.toggleSystem('muscular'); $A.setOpacity('muscular', 0.3); $A.setOpacity('skeletal', 0.55); 'x'"
 shot heart-structure "#organ/heart" 6 "$A.selectStructure('left-ventricle'); 'x'"
 shot quiz "" 3 "$A.startQuiz(); 'x'"
+shot female "&body=female" 3 "$front"
+shot female-muscles "&body=female" 3 "$front" "$A.toggleSystem('muscular'); 'x'"
 shot xray "" 3 "$front" "$A.toggleXray(); $A.toggleSystem('muscular'); 'x'"
 b goto "http://localhost:5190/systems/nervous/" >/dev/null 2>&1 && sleep 2 && b screenshot --viewport "$OUT/system-page.png" >/dev/null && sips -s format jpeg -s formatOptions 82 "$OUT/system-page.png" --out "$OUT/system-page.jpg" >/dev/null && rm "$OUT/system-page.png" && echo "ok system-page (needs npm run build + preview on :5190)"
 b goto "http://localhost:5180/" >/dev/null

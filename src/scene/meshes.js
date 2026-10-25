@@ -24,6 +24,7 @@ export const meshes = new Map() // partId -> THREE.Mesh
 const batches = {} // systemId -> THREE.BatchedMesh
 const instance = new Map() // partId -> instance id in its system's batch
 const centers = new Map() // partId -> Vector3 (rest position, centre of its bounds)
+let generation = 0 // bumped on every body swap, so idle work for the old body stops
 
 const solid = {}
 const ghost = {}
@@ -100,7 +101,25 @@ function buildPart(buffer, p) {
   return m
 }
 
+/** Drop the loaded body (geometry, batches, positions) so another one can be read in. */
+export function resetModel() {
+  generation++
+  for (const m of meshes.values()) m.geometry.dispose()
+  root.clear()
+  meshes.clear()
+  instance.clear()
+  centers.clear()
+  for (const [sys, b] of Object.entries(batches)) {
+    b.dispose()
+    delete batches[sys]
+  }
+  batchRoot.clear()
+  explode.ids = null
+  explode.dirty = true
+}
+
 export async function loadModel(atlas, { onChunk, signal }) {
+  setBodyBox(atlas)
   createBatches(atlas)
   const byChunk = atlas.chunks.map(() => [])
   for (const p of atlas.parts) byChunk[p.chunk].push(p)
@@ -110,6 +129,7 @@ export async function loadModel(atlas, { onChunk, signal }) {
     while (next < atlas.chunks.length) {
       const ci = next++
       const buffer = await fetchChunk(atlas.chunks[ci], signal)
+      if (signal.aborted) return // another body was asked for while this chunk was on its way
       for (const p of byChunk[ci]) {
         if (meshes.has(p.id)) continue
         const m = buildPart(buffer, p)
@@ -127,7 +147,9 @@ export async function loadModel(atlas, { onChunk, signal }) {
 export function buildBoundsTrees() {
   const queue = [...meshes.values()].filter((m) => !m.geometry.boundsTree)
   const idle = window.requestIdleCallback ?? ((fn) => setTimeout(() => fn({ timeRemaining: () => 8 }), 16))
+  const gen = generation
   const step = (deadline) => {
+    if (gen !== generation) return
     while (queue.length && deadline.timeRemaining() > 2) queue.pop().geometry.computeBoundsTree()
     if (queue.length) idle(step)
   }
@@ -140,6 +162,29 @@ export function buildBoundsTrees() {
 const SPREAD = [1.5, 0.55, 2.2]
 const BODY_CENTRE = new THREE.Vector3(0, 0.95, 0)
 const explode = { ids: null, origin: BODY_CENTRE.clone(), applied: -1, dirty: false }
+// Half-width, half-depth and top of the framed body. These defaults fit the male body; each atlas resets them.
+const body = { x: 0.32, z: 0.18, top: 1.76 }
+
+/** Size the home box and the spread centre to an atlas's own extent. */
+function setBodyBox(atlas) {
+  let x = 0
+  let z = 0
+  let h = 0
+  for (const p of atlas.parts) {
+    if (!solid[p.system] || p.system === 'pregnancy') continue
+    const [min, max] = p.bounds
+    x = Math.max(x, -min[0], max[0])
+    z = Math.max(z, -min[2], max[2])
+    h = Math.max(h, max[1])
+  }
+  if (!h) return
+  // The same margins the male defaults were tuned with.
+  body.x = x * 0.96
+  body.z = z * 1.22
+  body.top = h * 1.02
+  BODY_CENTRE.y = h * 0.55
+  explode.origin.copy(BODY_CENTRE)
+}
 
 /** Which pieces spread: a multi-part selection spreads on its own, otherwise the whole body. */
 export function setExplodeScope(partIds) {
@@ -203,11 +248,12 @@ export function explodedBounds(partIds, bounds, e) {
 export function homeBox(e) {
   const k = (i) => 1 + SPREAD[i] * e
   // Spread out, the body is about as deep as it is wide: keep the box round so any view angle fits.
-  const x = e > 0 ? Math.max(0.32 * k(0), 0.18 * k(2)) : 0.32
-  const z = e > 0 ? x : 0.18
+  const x = e > 0 ? Math.max(body.x * k(0), body.z * k(2)) : body.x
+  const z = e > 0 ? x : body.z
+  const c = BODY_CENTRE.y
   return [
-    [-x, BODY_CENTRE.y - 0.95 * k(1), -z],
-    [x, BODY_CENTRE.y + 0.81 * k(1), z],
+    [-x, c - c * k(1), -z],
+    [x, c + (body.top - c) * k(1), z],
   ]
 }
 

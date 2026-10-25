@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
-import { useAtlas, index, selectionBounds } from '../store.js'
-import { SYSTEMS, SYSTEM_BY_ID, REGION_BY_ID, regionOf, pretty } from '../data.js'
+import { useAtlas, index, selectionBounds, systemBlurb, partsOfConcepts, pinOf } from '../store.js'
+import { SYSTEMS, SYSTEM_BY_ID, REGION_BY_ID, pretty } from '../data.js'
+import { BODIES } from '../bodies.js'
 import { ORGANS } from '../organs.js'
 import { MOTION, REDUCED } from '../motion.js'
 import Icon from './Icon.jsx'
@@ -28,29 +29,36 @@ function sizeLabel(partIds) {
   return d >= 10 ? `≈ ${Math.round(d)} cm` : `≈ ${d.toFixed(1)} cm`
 }
 
+// BodyParts3D says "Left femur"; the female set also writes "eye L" and "cerebral aqueduct (left)".
 function sideOf(name) {
-  if (/^left\b/i.test(name)) return 'Left'
-  if (/^right\b/i.test(name)) return 'Right'
+  if (/^left\b/i.test(name) || /\sL$|\(left\)$/.test(name)) return 'Left'
+  if (/^right\b/i.test(name) || /\sR$|\(right\)$/.test(name)) return 'Right'
   return 'Midline / both'
 }
 
+const millions = (n) => `${(n / 1e6).toFixed(2)} million`
+
 function Overview() {
   const ready = useAtlas((s) => s.ready)
-  const total = ready ? index.parts.size.toLocaleString() : '2,234'
+  const body = BODIES[useAtlas((s) => s.body)]
+  const m = ready ? index.meta : null
+  const n = (v) => (m ? v.toLocaleString('en') : '…')
   return (
     <>
-      <div className="eyebrow">Homo sapiens · adult male reference</div>
+      <div className="eyebrow">{body.eyebrow}</div>
       <h1 className="title">The Human Body</h1>
-      <div className="tags"><span>3D atlas</span><span>15 systems</span><span>Free & open</span></div>
+      <div className="tags"><span>3D atlas</span><span>{m ? `${m.systems} systems` : body.label}</span><span>Free & open</span></div>
       <p className="lede">
         A full-body anatomy explorer that runs in your browser. Turn the body, peel back layers by system
         and click any structure — a bone, a vessel, a nerve — to learn what it is and where it sits.
       </p>
+      {body.note && <p className="note">{body.note}</p>}
       <Facts rows={[
-        ['cube', 'Structures', total],
-        ['layers', 'Systems', '15'],
-        ['spark', 'Named concepts', '3,432'],
-        ['ruler', 'Triangles', '2.29 million'],
+        ['cube', 'Structures', n(m?.parts)],
+        ['layers', 'Systems', n(m?.systems)],
+        ['spark', 'Named concepts', n(m?.concepts)],
+        ['ruler', 'Triangles', m ? millions(m.triangles) : '…'],
+        ['link', 'Source', body.source],
       ]} />
       <section className="block">
         <h2>How to explore</h2>
@@ -68,7 +76,9 @@ function Overview() {
 
 function SystemView({ id }) {
   const s = SYSTEM_BY_ID[id]
-  const count = useMemo(() => [...index.parts.values()].filter((p) => p.system === id).length, [id])
+  const ready = useAtlas((st) => st.ready)
+  const body = useAtlas((st) => st.body)
+  const count = useMemo(() => [...index.parts.values()].filter((p) => p.system === id).length, [id, ready])
   const examples = useMemo(() => {
     const names = new Set()
     for (const p of index.parts.values()) {
@@ -77,14 +87,14 @@ function SystemView({ id }) {
       if (names.size >= 8) break
     }
     return [...names]
-  }, [id])
+  }, [id, ready])
   const selectConcept = useAtlas.getState().selectConcept
   return (
     <>
       <div className="eyebrow">{s.latin}</div>
       <h1 className="title">{s.name}</h1>
       <div className="tags"><span>Body system</span><span>{count} structures</span></div>
-      <p className="lede">{s.blurb}</p>
+      <p className="lede">{systemBlurb(id, body)}</p>
       <section className="block">
         <h2>Start with</h2>
         <div className="chips">
@@ -105,8 +115,8 @@ function SystemView({ id }) {
 }
 
 const REGION_STARTS = {
-  head: ['skull', 'brain', 'mandible', 'left eyeball', 'thyroid gland'],
-  trunk: ['heart', 'right lung', 'liver', 'stomach', 'rib cage', 'right kidney'],
+  head: ['skull', 'brain', 'mandible', 'left eyeball', 'hyoid bone'],
+  trunk: ['heart', 'right lung', 'liver', 'stomach', 'rib cage', 'right kidney', 'uterus'],
   upper: ['humerus', 'radius', 'ulna', 'scapula', 'clavicle'],
   lower: ['femur', 'tibia', 'patella', 'fibula', 'calcaneus'],
 }
@@ -125,7 +135,7 @@ function RegionView({ id }) {
   }, [id, ready])
   const total = bySystem.reduce((n, [, k]) => n + k, 0)
   const top = bySystem[0]?.[1] ?? 1
-  const starts = REGION_STARTS[id].filter((n) => index.concepts.has(n))
+  const starts = REGION_STARTS[id].filter((n) => partsOfConcepts([n]).length)
   return (
     <>
       <div className="eyebrow-row">
@@ -137,12 +147,14 @@ function RegionView({ id }) {
       <h1 className="title">{r.name}</h1>
       <div className="tags"><span>Body region</span><span>{total.toLocaleString()} structures</span></div>
       <p className="lede">{r.blurb}</p>
-      <section className="block">
-        <h2>Start with</h2>
-        <div className="chips">
-          {starts.map((n) => <button key={n} className="chip" onClick={() => selectConcept(n)}>{pretty(n)}</button>)}
-        </div>
-      </section>
+      {starts.length > 0 && (
+        <section className="block">
+          <h2>Start with</h2>
+          <div className="chips">
+            {starts.map((n) => <button key={n} className="chip" onClick={() => selectConcept(n)}>{pretty(n)}</button>)}
+          </div>
+        </section>
+      )}
       <section className="block">
         <h2>By system</h2>
         <ul className="bars">
@@ -162,7 +174,8 @@ function RegionView({ id }) {
 function SelectionView({ sel }) {
   const { selectConcept, clearSelection, toggleIsolate, togglePin } = useAtlas.getState()
   const isolate = useAtlas((s) => s.isolate)
-  const pinned = useAtlas((s) => s.pins.some((p) => p.label.toLowerCase() === sel.name.toLowerCase()))
+  const pinKey = pinOf(sel).key
+  const pinned = useAtlas((s) => s.pins.some((p) => p.key === pinKey))
   const system = SYSTEM_BY_ID[sel.system]
   const first = index.parts.get(sel.partIds[0])
   const f = sel.featured
@@ -178,7 +191,7 @@ function SelectionView({ sel }) {
     ? [...f.facts, ['ruler', 'Model size', sizeLabel(sel.partIds)]]
     : [
         ['layers', 'System', system?.name ?? sel.system],
-        ['pin', 'Region', first ? regionOf(first.bounds) : '—'],
+        ['pin', 'Region', first ? REGION_BY_ID[index.partRegion.get(first.id)].name : '—'],
         ['side', 'Side', sideOf(sel.name)],
         ['ruler', 'Model size', sizeLabel(sel.partIds)],
         ['cube', 'Meshes', sel.partIds.length.toLocaleString()],
@@ -202,7 +215,7 @@ function SelectionView({ sel }) {
       <div className="tags">
         {(f?.tags ?? [system?.name, sel.kind === 'concept' ? 'Group' : 'Structure']).map((t) => <span key={t}>{t}</span>)}
       </div>
-      <p className="lede">{f ? f.text : system?.blurb}</p>
+      <p className="lede">{f ? f.text : systemBlurb(sel.system)}</p>
       <Facts rows={facts} />
       {partOf.length > 0 && (
         <section className="block">

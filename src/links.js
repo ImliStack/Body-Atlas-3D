@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useAtlas, index } from './store.js'
+import { useAtlas, index, partsOfConcepts } from './store.js'
 import { SYSTEM_BY_ID, REGION_BY_ID, FEATURED } from './data.js'
 import { ORGANS } from './organs.js'
 
@@ -27,7 +27,8 @@ function openHash(hash) {
   const key = decodeURIComponent(raw)
   if (kind === 'organ' && ORGANS[key]) st.openOrgan(key)
   else if (kind === 'featured' && FEATURED.some((f) => f.key === key)) st.selectFeatured(key)
-  else if (kind === 'concept' && index.concepts.has(key)) st.selectConcept(key)
+  // Names follow the body's aliases ("right lung" is "lungs r" in the female set).
+  else if (kind === 'concept' && partsOfConcepts([key]).length) st.selectConcept(key)
   else if (kind === 'part' && index.parts.has(key)) st.selectPart(key)
   else if (kind === 'system' && SYSTEM_BY_ID[key]) st.showSystem(key)
   else if (kind === 'region' && REGION_BY_ID[key]) st.region !== key && st.showRegion(key)

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useAtlas, index } from '../store.js'
 import { SYSTEMS, REGIONS } from '../data.js'
+import { BODIES, BODY_IDS } from '../bodies.js'
 import Icon from './Icon.jsx'
 
 function storedFolds() {
@@ -46,6 +47,22 @@ function OpacityRow({ system, value }) {
   )
 }
 
+/** Male / female reference body. Switching reloads the scene with the other atlas. */
+function BodySwitch() {
+  const body = useAtlas((s) => s.body)
+  const setBody = useAtlas((s) => s.setBody)
+  return (
+    <div className="body-switch" role="radiogroup" aria-label="Reference body">
+      {BODY_IDS.map((id) => (
+        <button key={id} role="radio" aria-checked={body === id} className={body === id ? 'is-on' : ''}
+          onClick={() => setBody(id)}>
+          {BODIES[id].label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export default function Sidebar() {
   const ready = useAtlas((s) => s.ready)
   const visible = useAtlas((s) => s.visible)
@@ -73,6 +90,7 @@ export default function Sidebar() {
       <a className="brand" href="#" onClick={(e) => { e.preventDefault(); showAll() }}>
         Body Atlas
       </a>
+      <BodySwitch />
       <nav className="side-nav" aria-label="Body systems and regions">
         <button className={`nav-row ${homeActive ? 'is-active' : ''}`} onClick={showAll}>
           <Icon name="home" />
@@ -112,7 +130,8 @@ export default function Sidebar() {
                 </button>
               </span>
             }>
-            {SYSTEMS.map((s) => {
+            {/* Only the systems this body has; while it loads, everything but the pregnancy set. */}
+            {SYSTEMS.filter((s) => (ready ? counts[s.id] : s.id !== 'pregnancy')).map((s) => {
               const on = visible.has(s.id)
               return (
                 <div key={s.id} className={`system-wrap ${on ? '' : 'is-off'}`}>

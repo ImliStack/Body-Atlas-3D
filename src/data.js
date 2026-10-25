@@ -1,5 +1,6 @@
 // Display systems, featured structures and copy for the atlas.
-// Geometry + names come from BodyParts3D 4.0 (CC BY 4.0), see public/ATTRIBUTION.md.
+// Geometry + names come from BodyParts3D 4.0 and the HuBMAP female reference set (both CC BY 4.0),
+// see public/ATTRIBUTION.md. Per-body copy lives in bodies.js.
 
 export const SYSTEMS = [
   { id: 'skeletal', name: 'Skeleton', latin: 'Systema skeletale', color: '#e4dcc0', icon: 'bone',
@@ -32,6 +33,9 @@ export const SYSTEMS = [
     blurb: 'Cartilage, ligaments and membranes that bind, cushion and separate the other structures.' },
   { id: 'integumentary', name: 'Body surface', latin: 'Integumentum', color: '#bc9c7e', icon: 'skin',
     blurb: 'The outer surface of the body — a reference shell over everything underneath.' },
+  // Female body only, and hidden until switched on.
+  { id: 'pregnancy', name: 'Pregnancy reference', latin: 'Graviditas', color: '#cf9aa0', icon: 'gland',
+    blurb: 'Placenta, amnion and umbilical cord from the female reference set. They model a pregnancy rather than the body itself, so they start hidden.' },
 ]
 
 export const SYSTEM_BY_ID = Object.fromEntries(SYSTEMS.map((s) => [s.id, s]))
@@ -102,16 +106,21 @@ export const REGIONS = [
 ]
 export const REGION_BY_ID = Object.fromEntries(REGIONS.map((r) => [r.id, r]))
 
-/** Region of a structure from the centre of its bounds (metres, feet at y = 0, facing +z). */
-export function regionIdOf(bounds) {
+// Height of the male body the region cuts below were measured on.
+export const REFERENCE_HEIGHT = 1.73
+
+// Hip and thigh structures that sit as far out as the hanging arms (wider hips put more of them there).
+const HIP = /fasciae latae|glute|femor|iliac|iliotibial|thigh|\bhip\b|inguinal|obturator|piriformis|sartorius/i
+
+/** Region of a structure from the centre of its bounds (metres, feet at y = 0, facing +z), scaled to the body's height; the name settles hip vs hand. */
+export function regionIdOf(bounds, height = REFERENCE_HEIGHT, name = '') {
   const [min, max] = bounds
   const cx = (min[0] + max[0]) / 2
-  const cy = (min[1] + max[1]) / 2
+  const cy = ((min[1] + max[1]) / 2) * (REFERENCE_HEIGHT / height)
   if (cy > 1.42) return 'head'
   // Arms hang at the sides, so the hands sit lower than the hips: test width first.
-  if (Math.abs(cx) > 0.17 && cy > 0.55) return 'upper'
+  if (Math.abs(cx) > 0.17 && cy > 0.55 && !(cy < 1.05 && HIP.test(name))) return 'upper'
   if (cy < 0.86) return 'lower'
   return 'trunk'
 }
 
-export const regionOf = (bounds) => REGION_BY_ID[regionIdOf(bounds)].name

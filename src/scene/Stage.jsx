@@ -2,9 +2,10 @@ import { Suspense, lazy, useEffect, useMemo, useRef } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { CameraControls } from '@react-three/drei'
 import * as THREE from 'three'
-import { useAtlas, buildIndex, organOfPart, index, pinParts } from '../store.js'
+import { useAtlas, buildIndex, resetIndex, organOfPart, index, pinParts } from '../store.js'
+import { BODIES } from '../bodies.js'
 import {
-  root, batchRoot, loadModel, applyState, stepFx, buildBoundsTrees, setLayerOpacity, setExplodeScope,
+  root, batchRoot, loadModel, resetModel, applyState, stepFx, buildBoundsTrees, setLayerOpacity, setExplodeScope,
   explodedBounds, homeBox, partCentre, anyShown, LAYER,
 } from './meshes.js'
 import { fx } from './fx.js'
@@ -16,8 +17,12 @@ const Effects = lazy(() => import('./Effects.jsx'))
 
 // Leave room for the quick picks above and the 360° control + caption below.
 const HOME_PADDING = { paddingTop: 0.16, paddingBottom: 0.42, paddingLeft: 0.1, paddingRight: 0.1 }
+// On a phone the picks and the turntable cover more of a narrow stage.
+const HOME_PADDING_NARROW = { paddingTop: 0.32, paddingBottom: 0.62, paddingLeft: 0.06, paddingRight: 0.06 }
 
 function Body() {
+  const body = useAtlas((s) => s.body)
+  const loaded = useRef(0) // bodies loaded so far
   const sceneVersion = useAtlas((s) => s.sceneVersion)
   const visible = useAtlas((s) => s.visible)
   const selection = useAtlas((s) => s.selection)
@@ -30,10 +35,17 @@ function Body() {
   useEffect(() => {
     const abort = new AbortController()
     const { setProgress, setReady, setError, bumpScene } = useAtlas.getState()
+    // A body swap starts from nothing: the old meshes and lookups go before the new manifest arrives.
+    resetModel()
+    resetIndex()
+    bumpScene()
     ;(async () => {
       try {
-        const atlas = await (await fetch('/models/atlas.json', { signal: abort.signal })).json()
-        buildIndex(atlas)
+        const res = await fetch(BODIES[body].atlas, { signal: abort.signal })
+        if (!res.ok) throw new Error(`The ${BODIES[body].label.toLowerCase()} body couldn’t load.`)
+        const atlas = await res.json()
+        if (abort.signal.aborted) return
+        buildIndex(atlas, body)
         await loadModel(atlas, {
           signal: abort.signal,
           onChunk: (f) => {
@@ -41,14 +53,17 @@ function Body() {
             bumpScene()
           },
         })
+        if (abort.signal.aborted) return
         setReady()
+        // After a body swap, frame the new body once its size is known (the first load is framed by Rig).
+        if (loaded.current++ && !useAtlas.getState().selection) useAtlas.getState().cameraCommand('home')
         buildBoundsTrees()
       } catch (err) {
         if (err.name !== 'AbortError') setError(err.message)
       }
     })()
     return () => abort.abort()
-  }, [])
+  }, [body])
 
   useEffect(() => {
     setLayerOpacity(layerOpacity)
@@ -80,7 +95,10 @@ function Body() {
     if (e.pointerType !== 'mouse' || e.buttons || st.selection?.kind === 'organ') return st.hover && st.setHover(null)
     const hit = pickHit(e)
     const id = hit?.object.userData.partId
-    if (!id) return st.hover && st.setHover(null)
+    if (!id) {
+      document.body.style.cursor = ''
+      return st.hover && st.setHover(null)
+    }
     // During the quiz the label would give the answer away, so only the cursor changes.
     st.setHover(st.quiz ? null : { id, x: e.nativeEvent.clientX, y: e.nativeEvent.clientY })
     document.body.style.cursor = 'pointer'
@@ -188,11 +206,14 @@ function Rig() {
   const selection = useAtlas((s) => s.selection)
   const region = useAtlas((s) => s.region)
   const threeCamera = useThree((s) => s.camera)
+  const width = useThree((s) => s.size.width)
+  const homePadding = width < 600 ? HOME_PADDING_NARROW : HOME_PADDING
 
   useEffect(() => {
     threeCamera.layers.enable(LAYER.context)
     ref.current?.setLookAt(1.1, 1.25, 2.9, 0, 0.88, 0, false)
-    ref.current?.fitToBox(toBox3(homeBox(0)), false, HOME_PADDING)
+    ref.current?.fitToBox(toBox3(homeBox(0)), false, homePadding)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threeCamera])
 
   useEffect(() => {
@@ -204,7 +225,7 @@ function Rig() {
     const e = fx.explodeTarget
     // A region is framed like a selection; the whole body grows its box with the spread.
     if (type === 'home' && region) fitPadded(c, explodedBounds(index.regionParts.get(region) ?? [], boundsOf, e), animate, 0.8)
-    else if (type === 'home') c.fitToBox(toBox3(homeBox(e)), animate, HOME_PADDING)
+    else if (type === 'home') c.fitToBox(toBox3(homeBox(e)), animate, homePadding)
     else if (type === 'selection' && selection) fitPadded(c, explodedBounds(selection.partIds, boundsOf, e), animate)
     // The lifted-out organ is the subject now, so frame it tighter than a body selection.
     else if (type === 'box' && camera.box) fitPadded(c, camera.box, animate, 0.5)
@@ -253,7 +274,8 @@ function PinProjector() {
       let n = 0
       v.set(0, 0, 0)
       for (const id of ids) if (partCentre(id, c)) { v.add(c); n++ }
-      if (!n) continue
+      // Nothing to point at in this body (say, a pin made on the other one): keep it out of sight.
+      if (!n) { el.style.opacity = line.style.opacity = '0'; el.style.pointerEvents = 'none'; continue }
       v.divideScalar(n).project(camera)
       const hidden = !showPins || !anyShown(ids) || v.z > 1 || Math.abs(v.x) > 1.1 || Math.abs(v.y) > 1.1
       const x = ((v.x + 1) / 2) * size.width

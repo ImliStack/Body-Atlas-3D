@@ -79,6 +79,9 @@ Installs as an app and keeps working offline. No plugin.
 
 **See**
 - **Whole-body model** — 2,234 meshes from BodyParts3D 4.0, grouped into 15 systems.
+- **Male and female bodies** — switch between the BodyParts3D male and the HuBMAP female
+  reference set (888 meshes, plus 1,646 fitted BodyParts3D bones, muscles, vessels, nerves and
+  glands, so both bodies have every system); the choice is kept in the link as `?body=female`.
 - **System layers** — show or hide any system; muscles and skin start hidden so the organs show.
 - **Per-layer opacity** — fade each system on its own with a slider instead of all-or-nothing.
 - **Exploded view** — spread the visible pieces apart, with a slider for how far; with a group
@@ -131,6 +134,17 @@ Installs as an app and keeps working offline. No plugin.
     <td align="center"><sub><b>X-ray</b></sub></td>
     <td align="center"><sub><b>Quiz</b></sub></td>
     <td align="center"><sub><b>System page</b> — for search engines</sub></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/female.jpg" alt="Female reference body: skeleton, organs, vessels and nerves" /></td>
+    <td width="50%"><img src="docs/screenshots/female-muscles.jpg" alt="Female reference body with the muscles shown" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>Female body</b> — the same systems as the male</sub></td>
+    <td align="center"><sub><b>Female muscles</b> — fitted to her skeleton</sub></td>
   </tr>
 </table>
 
@@ -393,15 +407,22 @@ offline ones) start from the cache.
 <details>
 <summary><b>Can I use it for medical decisions?</b></summary>
 <br />
-No. It is a learning tool built on a single adult male reference body. Real anatomy varies
+No. It is a learning tool built on two reference bodies, one male and one female. Real anatomy varies
 between people.
 </details>
 
 <details>
 <summary><b>Is there a female body?</b></summary>
 <br />
-Not yet. BodyParts3D is a male reference model. A female reference body (HuBMAP Female
-Reference Organs, CC BY 4.0) is on the <a href="#-roadmap">roadmap</a>.
+Yes. Use the <b>Male / Female</b> switch under the logo, or open <code>/?body=female</code>.
+The female body is the HuBMAP 3D Reference Organ Set for Female v1.5 (CC BY 4.0): 888 meshes
+with detailed organs and reproductive anatomy. That set's skeleton stops at the spine, pelvis
+and legs, so the skull, ribcage, shoulders, arms and feet are BodyParts3D bones fitted to the
+female body: the skull to her brain, eyes and neck, the ribcage to her lungs and spine, the arms
+swung into her pose, the feet set under her shins. Muscles, vessels, nerves and glands she lacks
+follow the bones around them onto her body, like skinning
+(<code>scripts/build-female-skeleton.mjs</code>), so the systems match the male body. These fitted
+parts are approximations, not female scan data. Placenta and umbilical structures are grouped under <i>Pregnancy reference</i> and start hidden.
 </details>
 
 <details>
@@ -423,7 +444,7 @@ the atlas still works and the page tells you what to change.
 - [x] Fewer draw calls — one batched mesh per system (~1,830 → ~14)
 - [x] One static page per system and region, sitemap, offline cache and install (PWA)
 - [x] Fold-away panels, focus mode, collapsible sidebar groups, ambient occlusion
-- [ ] Female reference body (HuBMAP Female Reference Organs, CC BY 4.0) with a body switcher
+- [x] Female reference body (HuBMAP Female Reference Organs, CC BY 4.0) with a body switcher
 - [ ] Cross-sections (clipping planes) through any axis
 - [ ] Guided tours that chain views, pins and captions
 
@@ -458,6 +479,7 @@ Issues and pull requests are welcome.
 | Source | What | Licence |
 |---|---|---|
 | [BodyParts3D 4.0](https://lifesciencedb.jp/bp3d/) — © DBCLS | Whole-body anatomy | CC BY 4.0 |
+| [HuBMAP 3D Reference Organ Set for Female v1.5](https://doi.org/10.48539/HBM352.BTSQ.586) — Browne & Schlehlein | Female reference body | CC BY 4.0 |
 | [ashemag/human-atlas](https://github.com/ashemag/human-atlas) | Packed browser geometry | MIT code · CC BY 4.0 data |
 | [OrganUI](https://github.com/organui) | Organ models | MIT code · CC BY 4.0 / CC BY-SA per model |
 | [three.js](https://threejs.org), [React Three Fiber](https://github.com/pmndrs/react-three-fiber), [drei](https://github.com/pmndrs/drei), [postprocessing](https://github.com/pmndrs/postprocessing), [three-mesh-bvh](https://github.com/gkjohnson/three-mesh-bvh) | 3D rendering and picking | MIT |

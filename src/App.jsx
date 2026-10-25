@@ -5,8 +5,9 @@ import Panel from './ui/Panel.jsx'
 import Icon from './ui/Icon.jsx'
 import Pins from './ui/Pins.jsx'
 import PanelToggles from './ui/PanelToggles.jsx'
-import { useAtlas, search, index } from './store.js'
+import { useAtlas, search, index, partsOfConcepts } from './store.js'
 import { FEATURED, SYSTEM_BY_ID, REGION_BY_ID } from './data.js'
+import { BODIES } from './bodies.js'
 import { useHashLink } from './links.js'
 import { ORGANS, PICKS } from './organs.js'
 import { MOTION, REDUCED } from './motion.js'
@@ -76,6 +77,7 @@ function SearchBox() {
 }
 
 function QuickPicks() {
+  const body = useAtlas((s) => s.body)
   const selection = useAtlas((s) => s.selection)
   const ready = useAtlas((s) => s.ready)
   const { openOrgan, selectFeatured } = useAtlas.getState()
@@ -85,8 +87,10 @@ function QuickPicks() {
         const item = p.organ ? ORGANS[p.organ] : FEATURED.find((f) => f.key === p.featured)
         const key = p.organ ?? p.featured
         const active = p.organ ? selection?.organKey === p.organ : selection?.featured?.key === p.featured
+        // A pick with no match in the body on screen stays in place but greys out.
+        const missing = ready && !partsOfConcepts(item.concepts).length
         return (
-          <button key={key} role="listitem" disabled={!ready} className={`pick ${active ? 'is-active' : ''}`}
+          <button key={key} role="listitem" disabled={!ready || missing} title={missing ? `Not in the ${BODIES[body].label.toLowerCase()} reference body` : undefined} className={`pick ${active ? 'is-active' : ''}`}
             onClick={() => (p.organ ? openOrgan(p.organ) : selectFeatured(p.featured))}>
             <span className="pick-dot" style={{ '--c': SYSTEM_BY_ID[item.system].color }} />
             <span className="pick-title">{item.title}</span>
@@ -106,6 +110,7 @@ function Tools() {
   const hasSel = useAtlas((s) => !!s.selection)
   const organMode = useAtlas((s) => s.selection?.kind === 'organ')
   const ready = useAtlas((s) => s.ready)
+  const quiz = useAtlas((s) => !!s.quiz)
   const explode = useAtlas((s) => s.explode)
   const pinsOn = useAtlas((s) => s.showPins && s.pins.length > 0)
   const hq = useAtlas((s) => s.hq)
@@ -126,8 +131,8 @@ function Tools() {
       <div className="tool-group">
         {tool('isolate', organMode ? 'Hide the body' : 'Isolate selection', st.toggleIsolate, { on: isolate, disabled: !hasSel, key: 'I' })}
         {tool('xray', 'X-ray', st.toggleXray, { on: xray, disabled: organMode, key: 'X' })}
-        {tool('explode', 'Exploded view', st.toggleExplode, { on: explode, disabled: !ready || organMode, key: 'E' })}
-        {tool('tag', 'Pinned labels', st.togglePins, { on: pinsOn, disabled: !ready, key: 'N' })}
+        {tool('explode', 'Exploded view', st.toggleExplode, { on: explode, disabled: !ready || organMode || quiz, key: 'E' })}
+        {tool('tag', 'Pinned labels', st.togglePins, { on: pinsOn, disabled: !ready || quiz, key: 'N' })}
       </div>
       <div className="tool-group">
         {tool('sun', 'Studio light', st.toggleLight, { on: light === 'contrast', key: 'L' })}
@@ -273,6 +278,7 @@ const SHORTCUTS = [
 
 function HelpSheet() {
   const help = useAtlas((s) => s.help)
+  const body = useAtlas((s) => s.body)
   const setHelp = useAtlas((s) => s.setHelp)
   if (!help) return null
   return (
@@ -289,7 +295,7 @@ function HelpSheet() {
           ))}
         </dl>
         <p className="sheet-credit">
-          Anatomy from BodyParts3D 4.0 © DBCLS (CC BY 4.0); organ models from OrganUI.
+          Anatomy from {BODIES[body].credit}; organ models from OrganUI.
           Educational use only — not a clinical tool. <a href="./ATTRIBUTION.md" target="_blank" rel="noreferrer">Full credits</a>
         </p>
       </div>
