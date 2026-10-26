@@ -184,6 +184,13 @@ input[type='range']::-moz-range-thumb { width: 12px; height: 12px; border-radius
 .feature-art svg { width: 64px; height: 44px; display: block; margin: 8px 0 6px; }
 .feature-card h3 { font: 400 20px/1.15 var(--serif); margin: 0 0 6px; }
 .feature-card p { margin: 0 0 10px; color: var(--muted); font-size: 12.5px; }
+.side-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 10px 8px 0; margin-top: 6px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted);
+}
+.side-foot a { color: inherit; text-decoration: none; }
+.side-foot a:hover { color: var(--ink); }
+.side-foot b { font-weight: 500; color: var(--ink-2); }
 .link-btn { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ───── Stage ───── */
@@ -515,6 +522,7 @@ kbd {
   .system-row { flex: none; width: auto; }
   .system-main .nav-sub { display: none; }
   .feature-card { display: none; }
+  .side-foot { display: none; }
   .tools { left: auto; right: 12px; top: 80px; transform: none; gap: 6px; }
   .tool { width: 34px; height: 34px; }
   .tool .icon { width: 18px; height: 18px; }

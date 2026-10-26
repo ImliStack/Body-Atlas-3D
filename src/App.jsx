@@ -8,7 +8,7 @@ import PanelToggles from './ui/PanelToggles.jsx'
 import { useAtlas, search, index, partsOfConcepts } from './store.js'
 import { FEATURED, SYSTEM_BY_ID, REGION_BY_ID } from './data.js'
 import { BODIES } from './bodies.js'
-import { useHashLink } from './links.js'
+import { useHashLink, REPO, IMLISTACK } from './links.js'
 import { ORGANS, PICKS } from './organs.js'
 import { MOTION, REDUCED } from './motion.js'
 
@@ -297,6 +297,8 @@ function HelpSheet() {
         <p className="sheet-credit">
           Anatomy from {BODIES[body].credit}; organ models from OrganUI.
           Educational use only — not a clinical tool. <a href="./ATTRIBUTION.md" target="_blank" rel="noreferrer">Full credits</a>
+          {' · '}<a href={REPO} target="_blank" rel="noreferrer">Source on GitHub</a>
+          {' · '}More projects at <a href={IMLISTACK} target="_blank" rel="noreferrer">imlistack.com</a>
         </p>
       </div>
     </div>
@@ -382,6 +384,9 @@ function TopActions() {
       <button className="icon-btn" onClick={() => setHelp(true)} aria-label="Shortcuts and credits" data-tip="Shortcuts & credits · ?">
         <Icon name="info" />
       </button>
+      <a className="icon-btn" href={REPO} target="_blank" rel="noreferrer" aria-label="Source code on GitHub" data-tip="Source on GitHub">
+        <Icon name="github" />
+      </a>
     </div>
   )
 }

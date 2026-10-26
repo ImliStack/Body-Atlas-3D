@@ -3,6 +3,7 @@ import { useAtlas, index } from '../store.js'
 import { SYSTEMS, REGIONS } from '../data.js'
 import { BODIES, BODY_IDS } from '../bodies.js'
 import Icon from './Icon.jsx'
+import { REPO, IMLISTACK } from '../links.js'
 
 function storedFolds() {
   try {
@@ -171,6 +172,11 @@ export default function Sidebar() {
           Explore the heart <Icon name="arrow" size={16} />
         </button>
       </div>
+
+      <footer className="side-foot">
+        <a href={IMLISTACK} target="_blank" rel="noreferrer">An <b>ImliStack</b> project · more at imlistack.com ↗</a>
+        <a href={REPO} target="_blank" rel="noreferrer" aria-label="Source code on GitHub"><Icon name="github" size={16} /></a>
+      </footer>
     </aside>
   )
 }

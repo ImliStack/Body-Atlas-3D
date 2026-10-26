@@ -79,7 +79,7 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
   <ul class="chips">${names.map(([n, id]) => `<li><a href="/#part/${id}">${esc(n)}</a></li>`).join('')}</ul>
   <h2>Keep exploring</h2>
   <ul class="chips">${siblings.map(([href, label]) => `<li><a href="${href}">${esc(label)}</a></li>`).join('')}</ul>
-  <footer>Anatomy from BodyParts3D 4.0 © DBCLS (CC BY 4.0). Educational use only — not a clinical tool.</footer>
+  <footer>Anatomy from BodyParts3D 4.0 © DBCLS (CC BY 4.0). Educational use only — not a clinical tool. · <a href="https://github.com/ImliStack/Body-Atlas-3D">Source on GitHub</a> · More projects at <a href="https://imlistack.com">imlistack.com</a></footer>
 </main>
 </body>
 </html>

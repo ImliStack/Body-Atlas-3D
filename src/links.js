@@ -3,6 +3,10 @@ import { useAtlas, index, partsOfConcepts } from './store.js'
 import { SYSTEM_BY_ID, REGION_BY_ID, FEATURED } from './data.js'
 import { ORGANS } from './organs.js'
 
+// Where the project lives: the source, and the studio that makes it.
+export const REPO = 'https://github.com/ImliStack/Body-Atlas-3D'
+export const IMLISTACK = 'https://imlistack.com'
+
 // The URL hash mirrors what is on screen, so any view can be shared or bookmarked:
 //   #organ/heart · #featured/skull · #concept/left%20femur · #part/FJ1252 · #system/venous · #region/head
 
